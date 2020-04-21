@@ -13,11 +13,16 @@ public class JukeBox {
    private final float range;
    private long interval = -1;
    private float volume = 0.3f;
+   private float minimumMillis = MINIMUM_INTERVAL_MILLIS;
 
    public JukeBox(AudioManager audioManager, float range, String... audioFiles) {
       this.audioManager = audioManager;
       this.range = range;
       this.audioFiles = audioFiles;
+   }
+
+   public void setMinimumMillis(float minimumMillis) {
+      this.minimumMillis = minimumMillis;
    }
 
    public void setVolume(float volume) {
@@ -33,7 +38,7 @@ public class JukeBox {
          Gdx.app.error("SOUND", "Missing audio files in JukeBox!");
          return;
       }
-      if (interval >= 0 && System.currentTimeMillis() - interval < MINIMUM_INTERVAL_MILLIS) {
+      if (interval >= 0 && System.currentTimeMillis() - interval < minimumMillis) {
          return;
       }
       String audioFile = audioFiles[(int) (audioFiles.length * Math.random())];

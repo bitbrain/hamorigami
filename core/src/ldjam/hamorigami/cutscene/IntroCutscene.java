@@ -8,12 +8,15 @@ import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.world.GameObject;
+import ldjam.hamorigami.Assets;
+import ldjam.hamorigami.audio.JukeBox;
 import ldjam.hamorigami.entity.EntityFactory;
 import ldjam.hamorigami.model.SpiritType;
 
 public class IntroCutscene implements CutsceneSetup {
 
    private GameObject kodama;
+   private JukeBox jukeBox;
 
    @Override
    public void cleanup(GameContext2D context) {
@@ -23,6 +26,8 @@ public class IntroCutscene implements CutsceneSetup {
 
    @Override
    public void setup(GameContext2D context) {
+      jukeBox = new JukeBox(context.getAudioManager(), 700f, Assets.Sounds.BRUSH_01);
+      jukeBox.setMinimumMillis(100f);
       EntityFactory entityFactory = new EntityFactory(context);
       kodama = entityFactory.spawnSpirit(SpiritType.SPIRIT_EARTH, context.getGameCamera().getScaledCameraWidth() / 3.5f, 0f);
       kodama.setDimensions(64f, 64f);
@@ -36,6 +41,13 @@ public class IntroCutscene implements CutsceneSetup {
             .target(currentX - 200f)
             .repeatYoyo(Tween.INFINITY, 0f)
             .ease(TweenEquations.easeInOutCubic)
+            .setCallbackTriggers(TweenCallback.ANY)
+            .setCallback(new TweenCallback() {
+               @Override
+               public void onEvent(int type, BaseTween<?> source) {
+                  jukeBox.playSound(kodama.getLeft() + 32f, kodama.getTop() + 32f);
+               }
+            })
             .start(SharedTweenManager.getInstance());
    }
 }
