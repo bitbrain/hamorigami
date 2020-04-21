@@ -105,8 +105,8 @@ public class TitlePhase implements GamePhase, Proceedable {
 
       logoA = new Label("HAM", Styles.LABEL_LOGO);
       logoB = new Label("RIGAMI", Styles.LABEL_LOGO);
-      logoA.setPosition(icon.getX() - logoA.getPrefWidth() - 10f, icon.getY() - 16f);
-      logoB.setPosition(icon.getX() + icon.getWidth() + 10f, icon.getY() - 16f);
+      logoA.setPosition(icon.getX() - logoA.getPrefWidth() - 10f, icon.getY() - 8f);
+      logoB.setPosition(icon.getX() + icon.getWidth() + 10f, icon.getY() - 8);
       context.getWorldStage().addActor(logoA);
       context.getWorldStage().addActor(logoB);
       logoA.getColor().a = 0f;
