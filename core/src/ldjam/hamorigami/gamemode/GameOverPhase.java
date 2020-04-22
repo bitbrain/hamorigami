@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import de.bitbrain.braingdx.assets.SharedAssetManager;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
@@ -25,6 +26,8 @@ import ldjam.hamorigami.ui.Styles;
 public class GameOverPhase implements GamePhase, Proceedable {
 
    private boolean exiting;
+
+   private GameContext2D context;
 
    private final GamePhaseHandler phaseHandler;
    private Table layout;
@@ -50,6 +53,7 @@ public class GameOverPhase implements GamePhase, Proceedable {
 
    @Override
    public void enable(GameContext2D context, GameObject treeObject) {
+      this.context = context;
       context.getInputManager().register(new ProceedableControllerAdapter(this));
       SharedAssetManager.getInstance().get(Assets.Musics.FAIL, Music.class).play();
       exiting = false;
@@ -99,6 +103,11 @@ public class GameOverPhase implements GamePhase, Proceedable {
 
    @Override
    public void proceed() {
+      Array<GameObject> spirits = context.getGameWorld().getGroup("spirits");
+      for (GameObject o : spirits) {
+         SharedTweenManager.getInstance().killTarget(o);
+         context.getGameWorld().remove(o);
+      }
       exiting = true;
       phaseHandler.changePhase(Phases.GAMEPLAY);
    }

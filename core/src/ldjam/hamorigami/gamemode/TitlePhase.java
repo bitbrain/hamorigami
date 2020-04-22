@@ -155,7 +155,7 @@ public class TitlePhase implements GamePhase, Proceedable {
       if (!exiting && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
          skip();
       }
-      if (!exiting && (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))) {
+      if (!exiting && (Gdx.input.isTouched() || (!Gdx.input.isKeyJustPressed(Input.Keys.MENU) && Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)))) {
          proceed();
       }
    }

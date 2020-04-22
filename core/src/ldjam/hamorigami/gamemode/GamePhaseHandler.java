@@ -2,7 +2,6 @@ package ldjam.hamorigami.gamemode;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.bitbrain.braingdx.context.GameContext2D;
-import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.Updateable;
 import de.bitbrain.braingdx.world.GameObject;
 import ldjam.hamorigami.model.HealthData;
@@ -19,6 +18,9 @@ public class GamePhaseHandler implements Updateable {
    private final Map<String, GamePhase> phases = new HashMap<>();
    private final GameContext2D context;
    private final GameObject treeObject;
+
+   private boolean disabling = false;
+   private boolean nextPhaseTriggered = false;
 
    public GamePhaseHandler(GameContext2D context, GameObject treeObject) {
       this.context = context;
@@ -42,6 +44,11 @@ public class GamePhaseHandler implements Updateable {
 
    @Override
    public void update(float delta) {
+      if (nextPhaseTriggered) {
+         phases.get(currentPhase).enable(context, treeObject);
+         nextPhaseTriggered = false;
+         return;
+      }
       if (currentPhase != null && !phases.get(currentPhase).isFinished()) {
          phases.get(currentPhase).update(delta);
       }
@@ -50,17 +57,18 @@ public class GamePhaseHandler implements Updateable {
       }
       if (!currentPhase.equals(nextPhase)) {
          GamePhase phase = phases.get(currentPhase);
-         phase.disable(context, treeObject);
+         if (!disabling) {
+            phase.disable(context, treeObject);
+            disabling = true;
+         }
          if (phase.isFinished()) {
+            disabling = false;
+            nextPhaseTriggered = true;
             context.getBehaviorManager().clear();
             context.getInputManager().clear();
             currentPhase = nextPhase;
             treeObject.getAttribute(HealthData.class).reset();
             treeObject.getAttribute(TreeStatus.class).reset();
-            if (!phases.containsKey(currentPhase)) {
-               throw new GdxRuntimeException("No phase defined with key " + currentPhase);
-            }
-            phases.get(currentPhase).enable(context, treeObject);
          }
       }
    }

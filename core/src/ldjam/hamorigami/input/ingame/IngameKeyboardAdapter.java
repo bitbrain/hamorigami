@@ -1,12 +1,12 @@
 package ldjam.hamorigami.input.ingame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import de.bitbrain.braingdx.util.Updateable;
 import de.bitbrain.braingdx.world.GameObject;
 import ldjam.hamorigami.entity.AttackHandler;
+import ldjam.hamorigami.input.Proceedable;
 import ldjam.hamorigami.model.Movement;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -18,16 +18,18 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
    private final Vector2 moveDirection = new Vector2();
    private final Vector2 speed = new Vector2();
    private final AttackHandler attackHandler;
+   private final Proceedable proceedable;
 
-   public IngameKeyboardAdapter(GameObject playerObject, AttackHandler attackHandler) {
+   public IngameKeyboardAdapter(GameObject playerObject, AttackHandler attackHandler, Proceedable proceedable) {
       this.playerObject = playerObject;
       this.attackHandler = attackHandler;
+      this.proceedable = proceedable;
    }
 
    @Override
    public void update(float delta) {
       if (input.isKeyPressed(ESCAPE)) {
-         Gdx.app.exit();
+         proceedable.skip();
       }
       if (input.isKeyPressed(W)) {
          moveDirection.y = 1;
@@ -42,12 +44,16 @@ public class IngameKeyboardAdapter extends InputAdapter implements Updateable {
          moveDirection.x = 1;
       }
       if (input.isKeyPressed(SPACE)) {
-         playerObject.getAttribute(Movement.class).jump();
+         if (playerObject.hasAttribute(Movement.class)) {
+            playerObject.getAttribute(Movement.class).jump();
+         }
       }
       if (input.isTouched() || input.isKeyPressed(ENTER)) {
          attackHandler.attack();
       }
-      playerObject.getAttribute(Movement.class).move(moveDirection);
+      if (playerObject.hasAttribute(Movement.class)) {
+         playerObject.getAttribute(Movement.class).move(moveDirection);
+      }
       moveDirection.x = 0;
       moveDirection.y = 0;
       speed.x = 0;
