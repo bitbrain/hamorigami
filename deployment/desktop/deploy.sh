@@ -30,11 +30,11 @@ prepare_and_push() {
     java -jar packr.jar --jdk $3 --output hamorigami-$1$4 -- deployment/desktop/$2
 
     mv hamorigami-$1$4/assets/* hamorigami-$1$4 && rm -rf hamorigami-$1$4/assets
-    zip -r hamorigami-$1.zip hamorigami-$1$4
+    zip -r hamorigami-$1-ldjam.zip hamorigami-$1$4
     rm -rf hamorigami-$1
 
     echo "Push $1 build to itch.io..."
-    ./butler push hamorigami-$1.zip bitbrain/hamorigami:$1 -i butler_creds
+    ./butler push hamorigami-$1-ldjam.zip bitbrain/hamorigami:$1 -i butler_creds
 }
 
 download_if_not_exist() {
