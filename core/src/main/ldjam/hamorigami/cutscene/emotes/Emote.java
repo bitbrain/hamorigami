@@ -9,10 +9,11 @@ import ldjam.hamorigami.Assets;
 
 public enum Emote {
    SMILE(0),
-   CONFUSION(0),
-   SADNESS(0),
-   DISAGREE(0),
-   AGREE(0);
+   CONFUSION(1),
+   SADNESS(2),
+   SURPRISE(3),
+   DISAGREE(4),
+   AGREE(5);
 
    private Animation<TextureRegion> animation;
    private final int yIndex;
@@ -25,7 +26,7 @@ public enum Emote {
       if (this.animation == null) {
          final int frames = 8;
          final int size = 32;
-         final float duration = 0.05f;
+         final float duration = 0.1f;
          final Texture texture = SharedAssetManager.getInstance().get(Assets.Textures.EMOTE_SPRITESHEET);
          Array<TextureRegion> regions = new Array<TextureRegion>();
          for (int i = 0; i < frames; ++i) {

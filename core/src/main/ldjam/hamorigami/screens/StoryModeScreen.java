@@ -4,15 +4,10 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.bitbrain.braingdx.debug.DebugMetric;
 import ldjam.hamorigami.HamorigamiGame;
 import ldjam.hamorigami.context.HamorigamiContext;
-import ldjam.hamorigami.cutscene.CutsceneBuilder;
-import ldjam.hamorigami.cutscene.emotes.Emote;
 import ldjam.hamorigami.gamemode.*;
 import ldjam.hamorigami.model.HealthData;
-import ldjam.hamorigami.model.SpiritType;
 import ldjam.hamorigami.model.TreeStatus;
-import ldjam.hamorigami.setup.DaySetupBuilder;
 import ldjam.hamorigami.setup.GameplaySetup;
-import ldjam.hamorigami.setup.GameplaySetupBuilder;
 import ldjam.hamorigami.setup.loader.GameplaySetupLoader;
 
 import java.io.IOException;

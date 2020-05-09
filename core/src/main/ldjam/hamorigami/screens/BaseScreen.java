@@ -10,7 +10,7 @@ import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.shader.ShaderConfig;
-import de.bitbrain.braingdx.screen.BrainGdxScreen2D;
+import de.bitbrain.braingdx.screen.AbstractBrainGdxScreen2D;
 import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.braingdx.screens.ColorTransition;
 import de.bitbrain.braingdx.util.ArgumentFactory;
@@ -29,7 +29,7 @@ import static ldjam.hamorigami.Assets.Textures.*;
 import static ldjam.hamorigami.model.SpiritType.SPIRIT_SUN;
 import static ldjam.hamorigami.model.SpiritType.SPIRIT_WATER;
 
-public abstract class BaseScreen extends BrainGdxScreen2D<HamorigamiGame, HamorigamiContext> {
+public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame, HamorigamiContext> {
 
    protected GameObject treeObject;
    protected Cityscape cityscape;
