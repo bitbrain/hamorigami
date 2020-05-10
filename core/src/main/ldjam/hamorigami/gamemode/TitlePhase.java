@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.VectorGameCamera;
 import de.bitbrain.braingdx.screens.ColorTransition;
@@ -86,7 +86,7 @@ public class TitlePhase implements GamePhase, Proceedable {
       colorTransition.setColor(Color.valueOf("9cd2ff"));
       context.getScreenTransitions().in(colorTransition, 0.2f);
       context.getInputManager().register(new ProceedableControllerAdapter(this));
-      music = SharedAssetManager.getInstance().get(Assets.Musics.MENU, Music.class);
+      music = Asset.get(Assets.Musics.MENU, Music.class);
       music.setLooping(true);
       music.setVolume(0.8f);
       music.play();
@@ -95,7 +95,7 @@ public class TitlePhase implements GamePhase, Proceedable {
       layout.setFillParent(true);
       layout.getColor().a = 0f;
 
-      Sprite sprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.LOGO, Texture.class));
+      Sprite sprite = new Sprite(Asset.get(Assets.Textures.LOGO, Texture.class));
       sprite.setSize(75, 75);
       this.icon = new Image(new SpriteDrawable(sprite));
       icon.setPosition(context.getGameCamera().getLeft() + context.getGameCamera().getScaledCameraWidth() / 2f - sprite.getWidth() / 2f - 40f, context.getGameCamera().getTop() + context.getGameCamera().getScaledCameraHeight() - 150f);

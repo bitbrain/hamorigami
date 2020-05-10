@@ -4,12 +4,15 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
+import com.badlogic.gdx.Gdx;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.tweens.GameCameraTween;
 import de.bitbrain.braingdx.tweens.GameObjectTween;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
+import ldjam.hamorigami.anchor.Anchor;
+import ldjam.hamorigami.anchor.AnchorMask;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.cutscene.emotes.Emote;
 import ldjam.hamorigami.i18n.Bundle;
@@ -174,6 +177,35 @@ public class CutsceneBuilder {
          }
       });
       return this;
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName) {
+      return spawn(id, spirit, anchorName, AnchorMask.CENTER.getByte());
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, float offsetX, float offsetY, final boolean persistent) {
+      return spawn(id, spirit, anchorName, AnchorMask.CENTER.getByte(), offsetX, offsetY, persistent);
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, final boolean persistent) {
+      return spawn(id, spirit, anchorName, AnchorMask.CENTER.getByte(), 0f, 0f, persistent);
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask) {
+      return spawn(id, spirit, anchorName, mask, 0f, 0f, false);
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask, float offsetX, float offsetY) {
+      return spawn(id, spirit, anchorName, mask, offsetX, offsetY, false);
+   }
+
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask, float offsetX, float offsetY, final boolean persistent) {
+      Anchor anchor = context.getAnchorManager().getAnchor(anchorName);
+      if (anchor == null) {
+         Gdx.app.error("ANCHOR", "Anchor with name " + anchorName + " not found.");
+         return spawn(id, spirit, offsetX, offsetY, persistent);
+      }
+      return spawn(id, spirit, anchor.getX(mask) + offsetX, anchor.getY(mask) + offsetY, persistent);
    }
 
    public CutsceneBuilder spawn(final String id, final SpiritType spirit, final float x, final float y) {

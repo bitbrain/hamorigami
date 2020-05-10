@@ -10,7 +10,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.tweens.ActorTween;
@@ -39,7 +39,7 @@ public class GameOverPhase implements GamePhase, Proceedable {
 
    @Override
    public void disable(final HamorigamiContext context, GameObject treeObject) {
-      SharedAssetManager.getInstance().get(Assets.Musics.FAIL, Music.class).stop();
+      Asset.get(Assets.Musics.FAIL, Music.class).stop();
       Tween.to(layout, ActorTween.ALPHA, 1f)
             .target(0f)
             .setCallbackTriggers(TweenCallback.COMPLETE)
@@ -56,7 +56,7 @@ public class GameOverPhase implements GamePhase, Proceedable {
    public void enable(HamorigamiContext context, GameObject treeObject) {
       this.context = context;
       context.getInputManager().register(new ProceedableControllerAdapter(this));
-      SharedAssetManager.getInstance().get(Assets.Musics.FAIL, Music.class).play();
+      Asset.get(Assets.Musics.FAIL, Music.class).play();
       exiting = false;
       this.layout = new Table();
       layout.setFillParent(true);

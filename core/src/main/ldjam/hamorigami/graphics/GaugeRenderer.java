@@ -4,7 +4,7 @@ import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.renderer.SpriteRenderer;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.ValueTween;
@@ -27,9 +27,9 @@ public class GaugeRenderer extends SpriteRenderer {
       super(Assets.Textures.GAUGE_OVERLAY);
       this.treeObject = treeObject;
       valueProvider.setValue(0.3f);
-      waterLevelSprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.GAUGE_WATER, Texture.class));
-      waterLevelTopSprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.GAUGE_WATER_TOP, Texture.class));
-      gaugeGrassSprite = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.GAUGE_GRASS, Texture.class));
+      waterLevelSprite = new Sprite(Asset.get(Assets.Textures.GAUGE_WATER, Texture.class));
+      waterLevelTopSprite = new Sprite(Asset.get(Assets.Textures.GAUGE_WATER_TOP, Texture.class));
+      gaugeGrassSprite = new Sprite(Asset.get(Assets.Textures.GAUGE_GRASS, Texture.class));
    }
 
    @Override

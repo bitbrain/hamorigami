@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GameCamera;
 
 public class ParallaxMap {
@@ -28,7 +28,7 @@ public class ParallaxMap {
 
    public ParallaxMap(String assetId, GameCamera camera, double parallaxity) {
       this.camera = camera;
-      this.sprite = new Sprite(SharedAssetManager.getInstance().get(assetId, Texture.class));
+      this.sprite = new Sprite(Asset.get(assetId, Texture.class));
       this.parallaxity = parallaxity;
       this.width = sprite.getWidth();
       this.height = sprite.getHeight();

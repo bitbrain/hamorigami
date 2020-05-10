@@ -26,7 +26,7 @@ public class SpiritRenderer extends AnimationRenderer {
       batch.setColor(1f, 1f, 1f, alpha);
       float size = 32f * heightPercentage;
       float offset = 64f * (1f - heightPercentage);
-      final Texture texture = SharedAssetManager.getInstance().get(Assets.Textures.DROPSHADOW, Texture.class);
+      final Texture texture = Asset.get(Assets.Textures.DROPSHADOW, Texture.class);
       float y = Math.min(object.getTop() , gameCamera.getTop() + offset);
       if (object.getType() == SpiritType.SPIRIT_EARTH) {
          batch.draw(texture, object.getLeft() + 16f, y, size, size);

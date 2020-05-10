@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.util.DeltaTimer;
@@ -53,8 +53,8 @@ public class SpeechBubble extends Actor {
       this.jukeBox.setSeed(spiritType != null ? spiritType.toString() : null);
       this.context = context;
       this.targetId = targetId;
-      this.background = GraphicsFactory.createNinePatch(SharedAssetManager.getInstance().get(Assets.Textures.BUBBLE, Texture.class), 8);
-      this.bottom = new Sprite(SharedAssetManager.getInstance().get(Assets.Textures.BUBBLE_BOTTOM, Texture.class));
+      this.background = GraphicsFactory.createNinePatch(Asset.get(Assets.Textures.BUBBLE, Texture.class), 8);
+      this.bottom = new Sprite(Asset.get(Assets.Textures.BUBBLE_BOTTOM, Texture.class));
    }
 
    public void setEmote(Emote emote) {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import ldjam.hamorigami.Assets;
 
 public enum Emote {
@@ -27,7 +27,7 @@ public enum Emote {
          final int frames = 8;
          final int size = 32;
          final float duration = 0.1f;
-         final Texture texture = SharedAssetManager.getInstance().get(Assets.Textures.EMOTE_SPRITESHEET);
+         final Texture texture = Asset.get(Assets.Textures.EMOTE_SPRITESHEET, Texture.class);
          Array<TextureRegion> regions = new Array<TextureRegion>();
          for (int i = 0; i < frames; ++i) {
             regions.add(new TextureRegion(texture, i * size, yIndex * size, size, size));

@@ -8,24 +8,24 @@ day 1
 begin cutscene
 
 wait 2 seconds
-player spawns at 200,0
-player fades in for 2 seconds
+kodama spawns at 200,0
+kodama fades in for 2 seconds
 wait 4 seconds
-player says player.dialog.01
-player starts swiping
-player moves by -200 for 3 seconds looped
+kodama says player.dialog.01
+kodama starts swiping
+kodama moves by -200 for 3 seconds looped
 wait 2 seconds
-player emotes with smile
-player starts swiping
+kodama emotes with smile
+kodama starts swiping
 reset player
-player says What is this?
+kodama says What is this?
 wait 2 seconds
 shake with intensity 10 for 2 seconds
-player starts swiping
-player says AAAAHHH!!! HELP!!!!
-player moves by 250 for 2 seconds
+kodama starts swiping
+kodama says AAAAHHH!!! HELP!!!!
+kodama moves by 250 for 2 seconds
 wait 2 seconds
-player stops swiping
+kodama stops swiping
 wait 1 second
 
 ame spawns at 200,100
@@ -33,18 +33,18 @@ ame fades in for 2 seconds
 wait 2 seconds
 ame says I must give water
 wait 0.5 seconds
-player starts swiping
-player moves by -30 for 2 seconds looped
+kodama starts swiping
+kodama moves by -30 for 2 seconds looped
 wait 0.5 seconds
-player says WHO ARE YOU?!
-player emotes with smile
+kodama says WHO ARE YOU?!
+kodama emotes with smile
 wait 0.3 seconds
 ame says I come from far above. To give you the elixir of life.
 wait 1 second
 
 shake with intensity 5 for 1 second
 wait 0.5 seconds
-player emotes with confusion
+kodama emotes with confusion
 ame emotes with confusion
 hi spawns at 400,100
 hi fades in for 3 seconds
@@ -54,7 +54,7 @@ hi says You are not supposed to be here.
 wait 0.5 seconds
 ame emotes with sadness
 ame says I... I need to fulfill my destiny.
-player stops swiping
+kodama stops swiping
 
 end cutscene
 
@@ -77,24 +77,24 @@ spawn hi at 10%
 begin cutscene
 
 wait 2 seconds
-player spawns at 200,0
-player fades in for 2 seconds
+kodama spawns at 200,0
+kodama fades in for 2 seconds
 wait 4 seconds
-player says player.dialog.01
-player starts swiping
-player moves by -200 for 3 seconds looped
+kodama says player.dialog.01
+kodama starts swiping
+kodama moves by -200 for 3 seconds looped
 wait 2 seconds
-player emotes with smile
-player starts swiping
+kodama emotes with smile
+kodama starts swiping
 reset player
-player says What is this?
+kodama says What is this?
 wait 2 seconds
 shake with intensity 10 for 2 seconds
-player starts swiping
-player says AAAAHHH!!! HELP!!!!
-player moves by 250 for 2 seconds
+kodama starts swiping
+kodama says AAAAHHH!!! HELP!!!!
+kodama moves by 250 for 2 seconds
 wait 2 seconds
-player stops swiping
+kodama stops swiping
 wait 1 second
 
 ame spawns at 200,100
@@ -102,18 +102,18 @@ ame fades in for 2 seconds
 wait 2 seconds
 ame says I must give water
 wait 0.5 seconds
-player starts swiping
-player moves by -30 for 2 seconds looped
+kodama starts swiping
+kodama moves by -30 for 2 seconds looped
 wait 0.5 seconds
-player says WHO ARE YOU?!
-player emotes with smile
+kodama says WHO ARE YOU?!
+kodama emotes with smile
 wait 0.3 seconds
 ame says I come from far above. To give you the elixir of life.
 wait 1 second
 
 shake with intensity 5 for 1 second
 wait 0.5 seconds
-player emotes with confusion
+kodama emotes with confusion
 ame emotes with confusion
 hi spawns at 400,100
 hi fades in for 3 seconds
@@ -123,7 +123,7 @@ hi says You are not supposed to be here.
 wait 0.5 seconds
 ame emotes with sadness
 ame says I... I need to fulfill my destiny.
-player stops swiping
+kodama stops swiping
 
 end cutscene
 

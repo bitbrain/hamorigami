@@ -3,7 +3,7 @@ package ldjam.hamorigami.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.pipeline.RenderLayer2D;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.setup.GameplaySetup;
@@ -45,10 +45,10 @@ public class Cityscape extends RenderLayer2D {
       float x = context.getGameCamera().getLeft();
       float y = context.getGameCamera().getTop();
 
-      Texture background = SharedAssetManager.getInstance().get(SKY_DAY, Texture.class);
+      Texture background = Asset.get(SKY_DAY, Texture.class);
       batch.draw(background, x, y);
 
-      Texture background_noon = SharedAssetManager.getInstance().get(SKY_EVENING, Texture.class);
+      Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
       Color color = batch.getColor();
       float alpha = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
       batch.setColor(1f, 1f, 1f, alpha);

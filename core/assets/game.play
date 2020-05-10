@@ -7,30 +7,30 @@ DAY 1
 begin cutscene
 
 wait 2 seconds
-player spawns at 200,0
-player fades in for 2 seconds
+kodama spawns at 200,0
+kodama fades in for 2 seconds
 wait 4 seconds
-player says cutscene.day0.human.01
-player emotes with confusion
-player moves -200,0 for 1 second
-player says cutscene.day0.human.02
+kodama says cutscene.day0.human.01
+kodama emotes with confusion
+kodama moves -200,0 for 1 second
+kodama says cutscene.day0.human.02
 wait 4 seconds
-player says cutscene.day0.human.03
+kodama says cutscene.day0.human.03
 wait 4 seconds
-player says cutscene.day0.human.04
-player moves 200,0 for 1 second looped
+kodama says cutscene.day0.human.04
+kodama moves 200,0 for 1 second looped
 reset player
 wait 4 seconds
-player emotes with confusion
-player moves 100,0
-player fades out for 2 seconds
-player says cutscene.day0.human.05
+kodama emotes with confusion
+kodama moves 100,0
+kodama fades out for 2 seconds
+kodama says cutscene.day0.human.05
 wait 4 seconds
-player says cutscene.day0.human.06
+kodama says cutscene.day0.human.06
 wait 8 seconds
-player spawns at 100,0
-player fades in for 2 seconds
-player says A week huh? I guess it is up to me then.
+kodama spawns at 100,0
+kodama fades in for 2 seconds
+kodama says A week huh? I guess it is up to me then.
 
 end cutscene
 
@@ -63,15 +63,15 @@ spawn 20x hi at 80%
 begin cutscene
 
 wait 2 seconds
-player spawns at 200,0
-player fades in for 2 seconds
+kodama spawns at 200,0
+kodama fades in for 2 seconds
 wait 4 seconds
-player says this was exhausting
-player starts swiping
-player moves -200 for 3 seconds looped
+kodama says this was exhausting
+kodama starts swiping
+kodama moves -200 for 3 seconds looped
 wait 2 seconds
-player emotes with smile
-player says It is time to rest now
+kodama emotes with smile
+kodama says It is time to rest now
 wait 2 seconds
 
 end cutscene

@@ -187,21 +187,21 @@ public class GameplaySetupLoader {
 
    private void processCutscene(String line, CutsceneBuilder cutsceneBuilder) {
       String[] args = line.split(" ");
-      if (line.contains(" spawns at ")) {
+      if (line.toLowerCase().contains(" spawns ")) {
          processSpawn(line, args, cutsceneBuilder);
-      } else if (line.startsWith("wait ")) {
+      } else if (line.toLowerCase().startsWith("wait ")) {
          processWait(line, args, cutsceneBuilder);
-      } else if (line.contains(" fades in for ")) {
+      } else if (line.toLowerCase().contains(" fades in for ")) {
          processFadeIn(line, args, cutsceneBuilder);
-      } else if (line.contains(" fades out for ")) {
+      } else if (line.toLowerCase().contains(" fades out for ")) {
          processFadeOut(line, args, cutsceneBuilder);
-      } else if (line.contains(" says ")) {
+      } else if (line.toLowerCase().contains(" says ")) {
          processSays(line, args, cutsceneBuilder);
-      } else if (line.contains(" emotes with ")) {
+      } else if (line.toLowerCase().contains(" emotes with ")) {
          processEmotes(line, args, cutsceneBuilder);
-      } else if (line.contains(" starts ") || line.contains(" stops ")) {
+      } else if (line.toLowerCase().contains(" starts ") || line.contains(" stops ")) {
          processModifyAttribute(line, args, cutsceneBuilder);
-      } else if (line.contains(" moves ")) {
+      } else if (line.toLowerCase().contains(" moves ")) {
          processMovesBy(line, args, cutsceneBuilder);
       } else if (line.startsWith("reset ")) {
          processReset(line, args, cutsceneBuilder);
@@ -222,8 +222,8 @@ public class GameplaySetupLoader {
    }
 
    private void processSpawn(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 4) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", must be <entity> spawns at <x>,<y>");
+      if (args.length != 4 && args.length != 9 && args.length != 2) {
+         throw new GdxRuntimeException("Invalid syntax: " + line + ", must be <entity> spawns [<direction> of <anchor>] [at <x>,<y>]");
       }
       String[] positionString = args[3].split(",");
       if (positionString.length != 2) {

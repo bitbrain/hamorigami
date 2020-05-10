@@ -7,7 +7,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
-import de.bitbrain.braingdx.assets.SharedAssetManager;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.screens.ColorTransition;
 import de.bitbrain.braingdx.tweens.ColorTween;
@@ -77,12 +77,12 @@ public class GameplayPhase implements GamePhase, Proceedable {
    @Override
    public void enable(final HamorigamiContext context, final GameObject treeObject) {
       setup.resetDay();
-      SharedAssetManager.getInstance().get(Assets.Musics.MENU, Music.class).stop();
+      Asset.get(Assets.Musics.MENU, Music.class).stop();
       gameOver = false;
       this.context = context;
       this.treeObject = treeObject;
-      this.music = SharedAssetManager.getInstance().get(BACKGROUND_01, Music.class);
-      cityscapeMusic = SharedAssetManager.getInstance().get(Assets.Musics.CITYSCAPE, Music.class);
+      this.music = Asset.get(BACKGROUND_01, Music.class);
+      cityscapeMusic = Asset.get(Assets.Musics.CITYSCAPE, Music.class);
       cityscapeMusic.setVolume(0.2f);
       music.setLooping(true);
       music.setVolume(0.1f);

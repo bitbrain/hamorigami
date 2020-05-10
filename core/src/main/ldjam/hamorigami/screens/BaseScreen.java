@@ -86,6 +86,11 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
 
       // add gauge
       GameObject gaugeObject = context.getEntityFactory().spawnGauge(360, 65);
+
+      // register anchors
+      context.getAnchorManager().addAnchor("gauge", gaugeObject);
+      context.getAnchorManager().addAnchor("floor", floorObject);
+      context.getAnchorManager().addAnchor("tree", treeObject);
    }
 
    private void setupGraphics(HamorigamiContext context) {
