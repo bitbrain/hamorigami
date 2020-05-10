@@ -55,8 +55,7 @@ The following explains various cutscene instructions you can use in order to def
 
 #### The player and despawning
 
-The cutscene editor treats the player slightly different from other entities. For example.
-the player (kodama) is referred to as `player`, whereas the other spirits are referred to as their natural name.
+The cutscene editor treats kodama slightly different from other entities, whereas the other spirits are referred to as their natural name.
 
 The reason is that spawning a player during a morning cutscene **will not** despawn it at the end of a cutscene. Instead, once the gameplay starts, kodama can be controlled directly by the player. All other entities spawned within cutscenes will automatically disappear once a cutscene is over!
 
@@ -65,7 +64,7 @@ The reason is that spawning a player during a morning cutscene **will not** desp
 ```
 entity spawns at x,y 
 ```
-*`entity` is the type of spirit to spawn OR player*<br/>
+*`entity` is the type of spirit to spawn*<br/>
 *`x` is the horizontal position of the scene (0 is left)*
 *`y` is the vertical position of the scene (0 is bottom)*
 
@@ -73,7 +72,7 @@ The following spirit entities are currently supported:
 
 * ame
 * hi
-* player
+* kodama
 
 #### Waiting
 
@@ -92,7 +91,7 @@ When a spirit spawns, it directly appears. In order to control a fade effect, do
 ```
 entity fades in for x seconds
 ```
-*`entity` is the type of spirit to fade in OR player*<br/>
+*`entity` is the type of spirit to fade in*<br/>
 *`x` the number of seconds to fade in*
 
 #### Movement
@@ -101,7 +100,7 @@ Entities can be moved during cutscenes. Currently, it is only possible to move e
 ```
 entity moves by x,y for 3 seconds looped
 ```
-*`entity` is the type of spirit to move OR player*<br/>
+*`entity` is the type of spirit to move*<br/>
 *`x` the amount of pixels to move left or right (can be negative)*<br/>
 *`y` the amount of pixels to move up or down (can be negative)*<br/>
 *`looped` is completely optional and lets the entity move back and forth between the old and new position*
@@ -112,7 +111,7 @@ Entities can talk:
 ```
 entity says sentence
 ```
-*`entity` is the type of spirit that should say something OR player*<br/>
+*`entity` is the type of spirit that should say something*<br/>
 *`sentence` is the sentence the entity should say. Can be any string*<br/>
 
 ##### Translations
@@ -128,7 +127,7 @@ cutscene.day1.kodama.01=Das ist ein Dialog
 ```
 Within the cutscene instruction, you then can automatically let the entity say the translated sentence:
 ```
-player says cutscene.day1.kodama.01
+kodama says cutscene.day1.kodama.01
 ```
 Depending on the language configured on the operating system of the player, the language gets automatically loaded (English is default).
 
@@ -171,7 +170,7 @@ Entities can emote:
 ```
 entity emotes with emote
 ```
-*`entity` is the type of spirit that should emote something OR player*<br/>
+*`entity` is the type of spirit that should emote something*<br/>
 *`emote` the kind of emote an entity should perform*<br/>
 
 Currently supported emotes:
@@ -203,7 +202,7 @@ entity stops activity
 ```
 Currently supported:
 
-* `swiping` the player starts to brush around
+* `swiping` kodama starts to brush around
 
 #### Resetting an entity
 
@@ -211,7 +210,7 @@ During a cutscene, you might wanna stop any behavior or movement on a certain en
 ```
 reset entity
 ```
-*`entity` is the type of spirit that should be resetted OR player*<br/>
+*`entity` is the type of spirit that should be resetted*<br/>
 
 ### Spawning spirits
 

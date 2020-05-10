@@ -232,8 +232,8 @@ public class GameplaySetupLoader {
       float x = Float.parseFloat(positionString[0]);
       float y = Float.parseFloat(positionString[1]);
       String entityName = args[0];
-      if (entityName.equals("player")) {
-         cutsceneBuilder.spawn("player", SpiritType.SPIRIT_EARTH, x, y, true);
+      if (entityName.equals("kodama")) {
+         cutsceneBuilder.spawn("kodama", SpiritType.SPIRIT_EARTH, x, y, true);
       } else {
          SpiritType type = SpiritType.resolveByName(entityName);
          if (type == null) {
