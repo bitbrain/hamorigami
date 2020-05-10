@@ -1,9 +1,7 @@
 # Hamorigami Gameplay Setup
 
-# DAY 1 - nothing much is happening here
-#
-# this is a comment
-day 1
+# day 0 - story set up
+# evening only, clear skies
 
 begin cutscene
 
@@ -11,15 +9,38 @@ wait 2 seconds
 player spawns at 200,0
 player fades in for 2 seconds
 wait 4 seconds
-player says player.dialog.01
-player starts swiping
-player moves by -200 for 3 seconds looped
-wait 2 seconds
-player emotes with smile
-player starts swiping
+player says cutscene.day0.human.01
+player emotes with confusion
+player moves by -200,0
+player says cutscene.day0.human.02
+wait 4 seconds
+player says cutscene.day0.human.03
+wait 4 seconds
+player says cutscene.day0.human.04
+player moves 200,0 looped
 reset player
-player says What is this?
-wait 2 seconds
+wait 4 seconds
+player emotes with confusion
+player moves 100,0
+player fades out for 2 seconds
+player says cutscene.day0.human.05
+wait 4 seconds
+player says cutscene.day0.human.06
+wait 8 seconds
+player spawns at 100,0
+player fades in for 2 seconds
+player says A week huh? I guess it is up to me then. 
+
+end cutscene
+
+# day 1 - game play explained, introduction of ame
+# whole day, showers starting in the mid-morning till evening/end of day
+
+DAY 1
+
+
+
+
 shake with intensity 10 for 2 seconds
 player starts swiping
 player says AAAAHHH!!! HELP!!!!
