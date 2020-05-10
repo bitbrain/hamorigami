@@ -56,6 +56,28 @@ public class CutsceneBuilder {
       return this;
    }
 
+   public CutsceneBuilder fadeOut(final String id, final float duration) {
+      getCurrentSteps().add(new CutsceneStep() {
+         @Override
+         public void execute() {
+            GameObject obj = context.getGameWorld().getObjectById(id);
+            if (obj != null) {
+               obj.getColor().a = 0f;
+               Tween.to(obj, GameObjectTween.ALPHA, duration)
+                     .target(0f)
+                     .start(SharedTweenManager.getInstance());
+            }
+         }
+
+         @Override
+         public void stop() {
+            GameObject obj = context.getGameWorld().getObjectById(id);
+            SharedTweenManager.getInstance().killTarget(obj);
+         }
+      });
+      return this;
+   }
+
    public CutsceneBuilder removeAttribute(final String id, final String attribute) {
       getCurrentSteps().add(new CutsceneStep() {
          @Override

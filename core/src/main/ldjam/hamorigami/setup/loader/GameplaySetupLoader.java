@@ -40,7 +40,7 @@ public class GameplaySetupLoader {
       ScanMode previousScanmode = ScanMode.EVENING_CUTSCENE;
       ScanMode scanMode = ScanMode.GAMEPLAY;
       boolean morningCutscene = false;
-      while((line = br.readLine()) != null) {
+      while ((line = br.readLine()) != null) {
          line = line.trim();
          // skip comments and empty lines
          if (line.isEmpty() || line.startsWith("#")) {
@@ -48,7 +48,7 @@ public class GameplaySetupLoader {
          }
          linesRead++;
          // a new day has started
-         if (line.startsWith("day")) {
+         if (line.toLowerCase().startsWith("day")) {
             if (linesRead > 1) {
                builder.addDay(daySetupBuilder.build());
                daySetupBuilder = new DaySetupBuilder();
@@ -59,7 +59,7 @@ public class GameplaySetupLoader {
             continue;
          }
          // begin cutscene
-         if (line.startsWith("begin cutscene")) {
+         if (line.toLowerCase().startsWith("begin cutscene")) {
             ScanMode oldScanMode = scanMode;
             if (scanMode == ScanMode.GAMEPLAY && previousScanmode == ScanMode.EVENING_CUTSCENE && !morningCutscene) {
                morningCutscene = true;
@@ -71,7 +71,7 @@ public class GameplaySetupLoader {
             continue;
          }
          // end cutscene
-         if (line.startsWith("end cutscene")) {
+         if (line.toLowerCase().startsWith("end cutscene")) {
             if (scanMode == ScanMode.EVENING_CUTSCENE) {
                daySetupBuilder.endOfDayCutscene(cutsceneBuilder.build());
             } else {
@@ -82,7 +82,7 @@ public class GameplaySetupLoader {
             cutsceneBuilder = new CutsceneBuilder(context);
             continue;
          }
-         if (scanMode == ScanMode.GAMEPLAY && line.startsWith("spawn")) {
+         if (scanMode == ScanMode.GAMEPLAY && line.toLowerCase().startsWith("spawn")) {
             morningCutscene = true;
          }
          if (scanMode == ScanMode.GAMEPLAY) {
@@ -102,12 +102,12 @@ public class GameplaySetupLoader {
       float timeValue = getTimeValue(line);
       SpiritType[] types = new SpiritType[spawnAmount];
       Arrays.fill(types, spiritType);
-      if (line.contains(" every ")) {
+      if (line.toLowerCase().contains(" every ")) {
          // spawn every x
          if (timeValue == 0f) {
             throw new GdxRuntimeException("Time interval cannot be 0: " + line);
          }
-         if (line.contains(" second")) {
+         if (line.toLowerCase().contains(" second")) {
             for (float currentSeconds = timeValue; currentSeconds <= GameplaySetup.SECONDS_PER_DAY; currentSeconds += timeValue) {
                daySetupBuilder.addSpawns(currentSeconds, types);
             }
@@ -119,8 +119,8 @@ public class GameplaySetupLoader {
          } else {
             throw new GdxRuntimeException("Invalid spawn interval: " + line);
          }
-      } else if (line.contains(" at ")) {
-         if (line.contains(" second")) {
+      } else if (line.toLowerCase().contains(" at ")) {
+         if (line.toLowerCase().contains(" second")) {
             daySetupBuilder.addSpawns(timeValue, types);
          } else if (line.contains("%")) {
             float convertedSeconds = GameplaySetup.SECONDS_PER_DAY / 100f * timeValue;
@@ -134,14 +134,14 @@ public class GameplaySetupLoader {
    }
 
    private SpiritType getSpiritType(String line) {
-      int endIndex = line.indexOf(" at");
+      int endIndex = line.toLowerCase().indexOf(" at");
       if (endIndex == -1) {
-         endIndex = line.indexOf(" every");
+         endIndex = line.toLowerCase().indexOf(" every");
       }
       if (endIndex == -1) {
          throw new GdxRuntimeException("Invalid syntax: " + line);
       }
-      int startIndex = line.indexOf("x ");
+      int startIndex = line.toLowerCase().indexOf("x ");
       if (startIndex == -1) {
          startIndex = 6;
       } else {
@@ -156,16 +156,16 @@ public class GameplaySetupLoader {
    }
 
    private float getTimeValue(String line) {
-      int startIndex = line.indexOf("every ");
+      int startIndex = line.toLowerCase().indexOf("every ");
       if (startIndex != -1) {
          startIndex += 6;
       } else {
-         startIndex = line.indexOf("at ");
+         startIndex = line.toLowerCase().indexOf("at ");
          if (startIndex != -1) {
             startIndex += 3;
          }
       }
-      int endIndex = line.indexOf(" second");
+      int endIndex = line.toLowerCase().indexOf(" second");
       if (endIndex == -1) {
          endIndex = line.indexOf("%");
       }
@@ -177,7 +177,7 @@ public class GameplaySetupLoader {
    }
 
    private int getSpawnAmount(String line) {
-      int startIndex = line.indexOf("x ");
+      int startIndex = line.toLowerCase().indexOf("x ");
       if (startIndex == -1) {
          return 1;
       }
@@ -193,13 +193,15 @@ public class GameplaySetupLoader {
          processWait(line, args, cutsceneBuilder);
       } else if (line.contains(" fades in for ")) {
          processFadeIn(line, args, cutsceneBuilder);
+      } else if (line.contains(" fades out for ")) {
+         processFadeOut(line, args, cutsceneBuilder);
       } else if (line.contains(" says ")) {
          processSays(line, args, cutsceneBuilder);
       } else if (line.contains(" emotes with ")) {
          processEmotes(line, args, cutsceneBuilder);
       } else if (line.contains(" starts ") || line.contains(" stops ")) {
          processModifyAttribute(line, args, cutsceneBuilder);
-      } else if (line.contains(" moves by ")) {
+      } else if (line.contains(" moves ")) {
          processMovesBy(line, args, cutsceneBuilder);
       } else if (line.startsWith("reset ")) {
          processReset(line, args, cutsceneBuilder);
@@ -265,6 +267,15 @@ public class GameplaySetupLoader {
       cutsceneBuilder.fadeIn(entity, seconds);
    }
 
+   private void processFadeOut(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
+      if (args.length != 6) {
+         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> fades out for <time> seconds");
+      }
+      String entity = args[0];
+      float seconds = Float.parseFloat(args[4]);
+      cutsceneBuilder.fadeOut(entity, seconds);
+   }
+
    private void processSays(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
       int startIndex = 0;
       int endIndex = line.indexOf(" ");
@@ -300,15 +311,16 @@ public class GameplaySetupLoader {
    }
 
    private void processMovesBy(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length < 7) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> moves by <x>,<y> for <unit> seconds [looped]");
+      if (args.length < 6 && args.length != 3 && args.length != 4) {
+         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> moves <x>,<y> [for <unit> seconds] [looped]");
       }
       String entity = args[0];
-      String[] positionString = args[3].split(",");
-      float duration = Float.parseFloat(args[5]);
+      String[] positionString = args[2].split(",");
+      float duration = args.length > 4 ? Float.parseFloat(args[4]) : 1f;
       float x = Float.parseFloat(positionString[0]);
       float y = positionString.length > 1 ? Float.parseFloat(positionString[1]) : 0f;
-      if (args.length == 8 && args[7].equals("looped")) {
+      if ((args.length == 7 && args[6].equals("looped"))
+            || (args.length == 4 && args[3].equals("looped"))) {
          cutsceneBuilder.moveByYoyo(entity, x, y, duration);
       } else {
          cutsceneBuilder.moveBy(entity, x, y, duration);

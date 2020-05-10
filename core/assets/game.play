@@ -1,8 +1,9 @@
 # Hamorigami Gameplay Setup
 
-# day 0 - story set up
-# evening only, clear skies
+# day 1 - game play explained, introduction of ame
+# whole day, showers starting in the mid-morning till evening/end of day
 
+DAY 1
 begin cutscene
 
 wait 2 seconds
@@ -11,13 +12,13 @@ player fades in for 2 seconds
 wait 4 seconds
 player says cutscene.day0.human.01
 player emotes with confusion
-player moves by -200,0
+player moves -200,0 for 1 second
 player says cutscene.day0.human.02
 wait 4 seconds
 player says cutscene.day0.human.03
 wait 4 seconds
 player says cutscene.day0.human.04
-player moves 200,0 looped
+player moves 200,0 for 1 second looped
 reset player
 wait 4 seconds
 player emotes with confusion
@@ -29,53 +30,7 @@ player says cutscene.day0.human.06
 wait 8 seconds
 player spawns at 100,0
 player fades in for 2 seconds
-player says A week huh? I guess it is up to me then. 
-
-end cutscene
-
-# day 1 - game play explained, introduction of ame
-# whole day, showers starting in the mid-morning till evening/end of day
-
-DAY 1
-
-
-
-
-shake with intensity 10 for 2 seconds
-player starts swiping
-player says AAAAHHH!!! HELP!!!!
-player moves by 250 for 2 seconds
-wait 2 seconds
-player stops swiping
-wait 1 second
-
-ame spawns at 200,100
-ame fades in for 2 seconds
-wait 2 seconds
-ame says I must give water
-wait 0.5 seconds
-player starts swiping
-player moves by -30 for 2 seconds looped
-wait 0.5 seconds
-player says WHO ARE YOU?!
-player emotes with smile
-wait 0.3 seconds
-ame says I come from far above. To give you the elixir of life.
-wait 1 second
-
-shake with intensity 5 for 1 second
-wait 0.5 seconds
-player emotes with confusion
-ame emotes with confusion
-hi spawns at 400,100
-hi fades in for 3 seconds
-wait 3 seconds
-hi says What are you doing here, Ame?
-hi says You are not supposed to be here.
-wait 0.5 seconds
-ame emotes with sadness
-ame says I... I need to fulfill my destiny.
-player stops swiping
+player says A week huh? I guess it is up to me then.
 
 end cutscene
 
@@ -113,7 +68,7 @@ player fades in for 2 seconds
 wait 4 seconds
 player says this was exhausting
 player starts swiping
-player moves by -200 for 3 seconds looped
+player moves -200 for 3 seconds looped
 wait 2 seconds
 player emotes with smile
 player says It is time to rest now
