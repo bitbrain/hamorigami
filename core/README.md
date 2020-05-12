@@ -65,10 +65,12 @@ The reason is that spawning a player during a morning cutscene **will not** desp
 #### Spawning spirits (in a cutscene!)
 
 ```
-spawn entity at anchor
+spawn entity at anchorName aligned direction offset x,y
 ```
 *`entity` is the type of spirit to spawn*<br/>
-*`anchor` the anchor to spawn the entity at*
+*`anchorName` the anchor to spawn the entity at*<br/>
+*`aligned` the direction to align. Can be north,west,east,south,center or a combination of each*<br/>
+*`offset` the offset of pixels from the point of alignment*<br/>
 
 The following spirit entities are currently supported:
 
@@ -80,6 +82,27 @@ Available anchors:
 
 * tree
 * floor
+
+Available directions:
+
+* south
+* west
+* north
+* east
+* center
+
+#### Examples
+```
+# spawn kodama on the bottom right of the tree,
+# 10 pixels to the right from that position
+spawn kodama aligned south,east at tree offset 10,0
+
+# spawn kodama on the top center of the tree
+spawn kodama at tree aligned top,center
+
+# spawn kodama at position 100,100
+spawn kodama offset 100,100
+```
 
 #### Waiting
 

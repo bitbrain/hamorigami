@@ -3,6 +3,8 @@ package ldjam.hamorigami.setup.loader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import ldjam.hamorigami.anchor.AnchorManager;
+import ldjam.hamorigami.anchor.AnchorMask;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.cutscene.CutsceneBuilder;
 import ldjam.hamorigami.cutscene.emotes.Emote;
@@ -14,10 +16,7 @@ import ldjam.hamorigami.setup.loader.commands.Argument;
 import ldjam.hamorigami.setup.loader.commands.CommandBehavior;
 import ldjam.hamorigami.setup.loader.commands.CommandParser;
 import ldjam.hamorigami.setup.loader.commands.CommandParserBuilder;
-import ldjam.hamorigami.setup.loader.commands.inputs.NumberInput;
-import ldjam.hamorigami.setup.loader.commands.inputs.PositionInput;
-import ldjam.hamorigami.setup.loader.commands.inputs.SecondInput;
-import ldjam.hamorigami.setup.loader.commands.inputs.StringInput;
+import ldjam.hamorigami.setup.loader.commands.inputs.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -163,14 +162,21 @@ public class GameplaySetupLoader {
                public void apply(Map<String, Object> args) {
                   String id = (String) args.get("spawn");
                   String anchor = (String) args.get("at");
+                  int anchorMask = args.containsKey("aligned")
+                        ? (int) args.get("aligned")
+                        : AnchorMask.CENTER.getByte();
                   SpiritType type = SpiritType.resolveByName(id);
+                  Vector2 offset = args.containsKey("offset") ? (Vector2) args.get("offset") : new Vector2();
                   if (type == SpiritType.SPIRIT_EARTH) {
-                     cutsceneBuilder.spawn(id, type, anchor, true);
+                     cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y, true);
                   } else {
-                     cutsceneBuilder.spawn(id, type, anchor);
+                     cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y);
                   }
                }
-            }, new StringInput(), new Argument("at", new StringInput()))
+            }, new StringInput(),
+                  new Argument("at", new StringInput()),
+                  new Argument("aligned", new AnchorMaskInput()),
+                  new Argument("offset", new PositionInput()))
             // fadeIn <id> for <seconds>
             .withCommand("fadein", new CommandBehavior() {
                @Override

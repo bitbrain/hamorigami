@@ -7,7 +7,7 @@ DAY 1
 begin cutscene
 
 wait 2 seconds
-spawn kodama at tree
+spawn kodama at tree aligned north,west offset 50,50
 fadeIn kodama for 2 seconds
 wait 4 seconds
 say cutscene.day0.human.01 on kodama

@@ -195,6 +195,10 @@ public class CutsceneBuilder {
       return spawn(id, spirit, anchorName, mask, 0f, 0f, false);
    }
 
+   public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask, final boolean persistent) {
+      return spawn(id, spirit, anchorName, mask, 0f, 0f, persistent);
+   }
+
    public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask, float offsetX, float offsetY) {
       return spawn(id, spirit, anchorName, mask, offsetX, offsetY, false);
    }

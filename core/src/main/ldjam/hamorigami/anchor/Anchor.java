@@ -16,21 +16,21 @@ public class Anchor {
    public float getX(int mask) {
       if (isSet(mask, AnchorMask.EAST)) {
          return object.getRight();
-      } else if (isSet(mask, AnchorMask.CENTER)) {
-         return object.getLeft() + object.getWidth() / 2f;
+      } else if (isSet(mask, AnchorMask.WEST)) {
+         return object.getLeft();
       }
       // LEFT IS DEFAULT
-      return object.getLeft();
+      return object.getLeft() + object.getWidth() / 2f;
    }
 
    public float getY(int mask) {
       if (isSet(mask, AnchorMask.NORTH)) {
          return object.getBottom();
-      } else if (isSet(mask, AnchorMask.CENTER)) {
-         return object.getTop() + object.getHeight() / 2f;
+      } else if (isSet(mask, AnchorMask.SOUTH)) {
+         return object.getTop();
       }
       // TOP IS DEFAULT
-      return object.getLeft();
+      return object.getTop() + object.getHeight() / 2f;
    }
 
    private static boolean isSet(int mask, AnchorMask orientation) {
