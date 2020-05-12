@@ -222,10 +222,14 @@ public class CutsceneBuilder {
                   target.setId(id);
                }
             };
-            if (persistent) {
-               context.getEntityFactory().spawnSpirit(spirit, x, y, mutator);
+            if (context.getGameWorld().getObjectById(id) != null) {
+               context.getGameWorld().getObjectById(id).setPosition(x, y);
             } else {
-               context.getEntityFactory().spawnSpirit(spirit, x, y, mutator, "cutscene");
+               if (persistent) {
+                  context.getEntityFactory().spawnSpirit(spirit, x, y, mutator);
+               } else {
+                  context.getEntityFactory().spawnSpirit(spirit, x, y, mutator, "cutscene");
+               }
             }
          }
 

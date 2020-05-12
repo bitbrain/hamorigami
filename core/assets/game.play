@@ -20,10 +20,12 @@ wait 4 seconds
 say cutscene.day0.human.04 on kodama
 move kodama by 50,0 for 1 second looped
 wait 4 seconds
+reset kodama
 emote confusion on kodama
 move kodama by 100,0
 fadeOut kodama for 2 seconds
 spawn kodama at tree
+fadeIn kodama for 2 seconds
 say cutscene.day0.human.05 on kodama
 wait 4 seconds
 say cutscene.day0.human.06 on kodama

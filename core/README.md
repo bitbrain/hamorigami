@@ -23,12 +23,15 @@ The gameplay file `assets/game.play` contains instructions in how the story mode
 ```
 # this is a comment and it won't get parsed
 
-instruction1
-instruction2
-
-# another comment
-instruction3
+command arg1 input 1 arg2 input2
+command input
 ```
+Each line starts with a so called **command**. Additionally, a command can have zero or more arguments. Each argument has a corresponding input, for example:
+```
+spawn kodama at tree
+```
+`spawn` is the command, `kodama` is an input, `at` is an argument and `tree` is another input.
+
 The following section describes various concepts in gameplay files, including syntax and examples:
 
 ### Starting a new day
@@ -62,17 +65,21 @@ The reason is that spawning a player during a morning cutscene **will not** desp
 #### Spawning spirits (in a cutscene!)
 
 ```
-entity spawns at x,y 
+spawn entity at anchor
 ```
 *`entity` is the type of spirit to spawn*<br/>
-*`x` is the horizontal position of the scene (0 is left)*
-*`y` is the vertical position of the scene (0 is bottom)*
+*`anchor` the anchor to spawn the entity at*
 
 The following spirit entities are currently supported:
 
 * ame
 * hi
 * kodama
+
+Available anchors:
+
+* tree
+* floor
 
 #### Waiting
 
@@ -89,7 +96,7 @@ wait x seconds
 
 When a spirit spawns, it directly appears. In order to control a fade effect, do the following right after the spawn instruction:
 ```
-entity fades in for x seconds
+fadeIn entity for x seconds
 ```
 *`entity` is the type of spirit to fade in*<br/>
 *`x` the number of seconds to fade in*
@@ -98,7 +105,7 @@ entity fades in for x seconds
 
 Entities can be moved during cutscenes. Currently, it is only possible to move entities relatively to their current position:
 ```
-entity moves by x,y for 3 seconds looped
+move entity by x,y for 3 seconds looped
 ```
 *`entity` is the type of spirit to move*<br/>
 *`x` the amount of pixels to move left or right (can be negative)*<br/>
@@ -109,13 +116,14 @@ entity moves by x,y for 3 seconds looped
 
 Entities can talk:
 ```
-entity says sentence
+say key on entity
 ```
 *`entity` is the type of spirit that should say something*<br/>
-*`sentence` is the sentence the entity should say. Can be any string*<br/>
+*`key` is the sentence the entity should say. Must be a translation key*<br/>
 
 ##### Translations
-It is recommended to define sentences within the `assets/i18n` folder. 
+
+Define sentences within the `assets/i18n` folder. 
 
 For example within: `assets/i18n/translations.properties`
 ```
@@ -159,8 +167,8 @@ cutscene.day2.hi.02=mhhh...
 ##### Multiple sentences
 A player can say multiple sentences at once:
 ```
-ame says cutscene.day4.ame.01
-ame says cutscene.day4.ame.02
+say cutscene.day4.ame.01 on ame
+say cutscene.day4.ame.02 on ame
 ```
 It is quite impossible for someone to say two things at the same time, so those sentences get shown after another.
 
@@ -168,10 +176,10 @@ It is quite impossible for someone to say two things at the same time, so those 
 
 Entities can emote:
 ```
-entity emotes with emote
+emote availableEmote on entity
 ```
 *`entity` is the type of spirit that should emote something*<br/>
-*`emote` the kind of emote an entity should perform*<br/>
+*`availableEmote` the kind of emote an entity should perform*<br/>
 
 Currently supported emotes:
 
@@ -196,13 +204,13 @@ It is possible to enable or disable certain properties/states on entities, for e
 
 ```
 # sets the property on the entity
-entity starts activity
+start activity on entity
 # removes the property from the entity
-entity stops activity
+stop activity on entity
 ```
 Currently supported:
 
-* `swiping` kodama starts to brush around
+* `swiping` (kodama only) kodama starts to brush around
 
 #### Resetting an entity
 
@@ -227,59 +235,40 @@ The following spirit types are currently supported:
 #### Spawning at a given point in time
 
 ```
-spawn type at x seconds
+at x seconds spawn type times amount
 ```
 *`type` is the type of spirit to spawn*<br/>
 *`x` is the amount of seconds*
-
-It is also possible to spawn multiple spirits:
-```
-spawn 3x type at x seconds
-```
+*`amount` is the number of entities*
 
 #### Spawning at a progress of the day
 
 ```
-spawn type at x%
+at x% spawn type times amount
 ```
 *`type` is the type of spirit to spawn*<br/>
 *`x` is the percentage of how much the day has already passed*
 
-It is also possible to spawn multiple spirits:
-```
-spawn 5x type at x%
-```
-
 #### Spawning at a given chronological rate
 
 ```
-spawn type every x seconds
+every x seconds spawn type
 ```
 *`type` is the type of spirit to spawn*<br/>
 *`x` is the interval in seconds*
 
-It is also possible to spawn multiple spirits in intervals:
-```
-spawn 3x type every x seconds
-```
-
 #### Spawning at a given progress rate
 
 ```
-spawn type every x%
+every x% spawn type
 ```
 *`type` is the type of spirit to spawn*<br/>
 *`x` is the percentage of the day as an interval*
 
-It is also possible to spawn multiple spirits in intervals:
-```
-spawn 3x type every x%
-```
 #### Examples
-
 ```
 # spawns 4x hi at the middle of the day
-spawn 4x hi at 50%
+at 50% spawn hi 4 times
 # spawns 2x ame every 10 seconds
-spawn 2x ame every 10 seconds
+every 10 seconds spawn ame 2 times
 ```
