@@ -7,71 +7,55 @@ DAY 1
 begin cutscene
 
 wait 2 seconds
-kodama spawns at 200,0
-kodama fades in for 2 seconds
+spawn kodama at tree
+fadeIn kodama for 2 seconds
 wait 4 seconds
-kodama says cutscene.day0.human.01
-kodama emotes with confusion
-kodama moves -200,0 for 1 second
-kodama says cutscene.day0.human.02
+say cutscene.day0.human.01 on kodama
+emote confusion on kodama
+move kodama by -200,0 for 1 second
+say cutscene.day0.human.02 on kodama
 wait 4 seconds
-kodama says cutscene.day0.human.03
+say cutscene.day0.human.03 on kodama
 wait 4 seconds
-kodama says cutscene.day0.human.04
-kodama moves 200,0 for 1 second looped
-reset player
+say cutscene.day0.human.04 on kodama
+move kodama by 50,0 for 1 second looped
 wait 4 seconds
-kodama emotes with confusion
-kodama moves 100,0
-kodama fades out for 2 seconds
-kodama says cutscene.day0.human.05
+emote confusion on kodama
+move kodama by 100,0
+fadeOut kodama for 2 seconds
+spawn kodama at tree
+say cutscene.day0.human.05 on kodama
 wait 4 seconds
-kodama says cutscene.day0.human.06
+say cutscene.day0.human.06 on kodama
 wait 8 seconds
-kodama spawns at 100,0
-kodama fades in for 2 seconds
-kodama says A week huh? I guess it is up to me then.
+spawn kodama at tree
+fadeIn kodama for 2 seconds
+say cutscene.day0.human.06 on kodama
 
 end cutscene
 
-spawn ame every 5 seconds
-spawn 2x ame every 11 seconds
+every 5 seconds spawn ame
+every 11 seconds spawn ame times 2
 
-spawn 4x ame at 10 seconds
-spawn 10x ame at 20 seconds
-spawn 20x ame at 40 seconds
-spawn 10x ame at 50 seconds
+at 10 seconds spawn ame times 4
+at 20 seconds spawn ame times 10
+at 40 seconds spawn ame times 20
+at 50 seconds spawn ame times 10
 
 day 2
 
-spawn 2x ame every 10 seconds
-spawn 5x hi every 15 seconds
+every 10 seconds spawn ame times 2
+every 15 seconds spawn hi times 5
 
-spawn 2x ame at 10 seconds
-spawn 10x hi at 50%
+at 10 seconds spawn ame times 2
+at 50% spawn hi times 10
 
 day 3
 
-spawn 3x ame every 6 seconds
-spawn 4x hi every 7 seconds
+every 6 seconds spawn ame times 3
+every 7 seconds spawn hi times 4
 
-spawn 7x ame at 10 seconds
-spawn 10x hi at 20%
-spawn 15x ame at 60%
-spawn 20x hi at 80%
-
-begin cutscene
-
-wait 2 seconds
-kodama spawns at 200,0
-kodama fades in for 2 seconds
-wait 4 seconds
-kodama says this was exhausting
-kodama starts swiping
-kodama moves -200 for 3 seconds looped
-wait 2 seconds
-kodama emotes with smile
-kodama says It is time to rest now
-wait 2 seconds
-
-end cutscene
+at 10 seconds spawn ame times 7
+at 20% spawn hi times 10
+at 60% spawn ame times 15
+at 80% spawn hi times 20

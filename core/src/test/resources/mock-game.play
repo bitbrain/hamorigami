@@ -1,133 +1,70 @@
 # Hamorigami Gameplay Setup
 
-# DAY 1 - nothing much is happening here
-#
-# this is a comment
-day 1
+# day 1 - game play explained, introduction of ame
+# whole day, showers starting in the mid-morning till evening/end of day
 
+DAY 1
 begin cutscene
 
 wait 2 seconds
-kodama spawns at 200,0
-kodama fades in for 2 seconds
+spawn kodama at tree
+fadeIn kodama for 2 seconds
 wait 4 seconds
-kodama says player.dialog.01
-kodama starts swiping
-kodama moves by -200 for 3 seconds looped
-wait 2 seconds
-kodama emotes with smile
-kodama starts swiping
-reset player
-kodama says What is this?
-wait 2 seconds
-shake with intensity 10 for 2 seconds
-kodama starts swiping
-kodama says AAAAHHH!!! HELP!!!!
-kodama moves by 250 for 2 seconds
-wait 2 seconds
-kodama stops swiping
-wait 1 second
-
-ame spawns at 200,100
-ame fades in for 2 seconds
-wait 2 seconds
-ame says I must give water
-wait 0.5 seconds
-kodama starts swiping
-kodama moves by -30 for 2 seconds looped
-wait 0.5 seconds
-kodama says WHO ARE YOU?!
-kodama emotes with smile
-wait 0.3 seconds
-ame says I come from far above. To give you the elixir of life.
-wait 1 second
-
-shake with intensity 5 for 1 second
-wait 0.5 seconds
-kodama emotes with confusion
-ame emotes with confusion
-hi spawns at 400,100
-hi fades in for 3 seconds
-wait 3 seconds
-hi says What are you doing here, Ame?
-hi says You are not supposed to be here.
-wait 0.5 seconds
-ame emotes with sadness
-ame says I... I need to fulfill my destiny.
-kodama stops swiping
+say cutscene.day0.human.01 on kodama
+emote confusion on kodama
+move kodama by -200,0 for 1 second
+say cutscene.day0.human.02 on kodama
+wait 4 seconds
+say cutscene.day0.human.03 on kodama
+wait 4 seconds
+say cutscene.day0.human.04 on kodama
+move kodama by 200,0 for 1 second looped
+reset kodama
+wait 4 seconds
+emote confusion on kodama
+move kodama by 100,0
+fadeOut kodama for 2 seconds
+spawn hi at tree
+say cutscene.day0.human.05 on hi
+wait 4 seconds
+say cutscene.day0.human.06 on hi
+wait 8 seconds
+fadeOut hi for 2 seconds
 
 end cutscene
 
-spawn 2x ame every 10 seconds
-spawn 2x hi every 15 seconds
+every 5% spawn hi
+every 11 seconds spawn ame times 2
 
-spawn ame at 0 seconds
-spawn 4x ame at 10 seconds
-spawn hi at 15 seconds
+at 10 seconds spawn ame times 4
+at 20 seconds spawn ame times 10
+at 50% spawn ame
+at 50% spawn hi times 5
+at 50 seconds spawn ame times 10
 
 day 2
 
-spawn 2x ame every 10 seconds
-spawn 2x hi every 15 seconds
+every 10 seconds spawn ame times 2
+every 15 seconds spawn hi times 5
 
-spawn ame at 0 seconds
-spawn 4x ame at 10 seconds
-spawn hi at 10%
+at 10 seconds spawn ame times 2
+at 50% spawn hi times 10
 
 begin cutscene
 
 wait 2 seconds
-kodama spawns at 200,0
-kodama fades in for 2 seconds
+spawn kodama at tree
+fadeIn kodama for 2 seconds
 wait 4 seconds
-kodama says player.dialog.01
-kodama starts swiping
-kodama moves by -200 for 3 seconds looped
-wait 2 seconds
-kodama emotes with smile
-kodama starts swiping
-reset player
-kodama says What is this?
-wait 2 seconds
-shake with intensity 10 for 2 seconds
-kodama starts swiping
-kodama says AAAAHHH!!! HELP!!!!
-kodama moves by 250 for 2 seconds
-wait 2 seconds
-kodama stops swiping
-wait 1 second
-
-ame spawns at 200,100
-ame fades in for 2 seconds
-wait 2 seconds
-ame says I must give water
-wait 0.5 seconds
-kodama starts swiping
-kodama moves by -30 for 2 seconds looped
-wait 0.5 seconds
-kodama says WHO ARE YOU?!
-kodama emotes with smile
-wait 0.3 seconds
-ame says I come from far above. To give you the elixir of life.
-wait 1 second
-
-shake with intensity 5 for 1 second
-wait 0.5 seconds
-kodama emotes with confusion
-ame emotes with confusion
-hi spawns at 400,100
-hi fades in for 3 seconds
-wait 3 seconds
-hi says What are you doing here, Ame?
-hi says You are not supposed to be here.
-wait 0.5 seconds
-ame emotes with sadness
-ame says I... I need to fulfill my destiny.
-kodama stops swiping
 
 end cutscene
 
 day 3
 
-spawn 1x ame every 10 seconds
-spawn 1x hi every 15 seconds
+every 6 seconds spawn ame times 3
+every 7 seconds spawn hi times 4
+
+at 10 seconds spawn ame times 7
+at 20% spawn hi times 10
+at 60% spawn ame times 15
+at 80% spawn hi times 20

@@ -22,8 +22,8 @@ public class DaySetupBuilder {
    }
 
 
-   public DaySetupBuilder addSpawns(float dayPercentage, SpiritType ... spirits) {
-      spawns.put(dayPercentage, spirits);
+   public DaySetupBuilder addSpawns(float seconds, SpiritType ... spirits) {
+      spawns.put(seconds, spirits);
       return this;
    }
 

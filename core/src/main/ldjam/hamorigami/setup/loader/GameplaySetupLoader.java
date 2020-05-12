@@ -2,7 +2,7 @@ package ldjam.hamorigami.setup.loader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.math.Vector2;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.cutscene.CutsceneBuilder;
 import ldjam.hamorigami.cutscene.emotes.Emote;
@@ -10,10 +10,18 @@ import ldjam.hamorigami.model.SpiritType;
 import ldjam.hamorigami.setup.DaySetupBuilder;
 import ldjam.hamorigami.setup.GameplaySetup;
 import ldjam.hamorigami.setup.GameplaySetupBuilder;
+import ldjam.hamorigami.setup.loader.commands.Argument;
+import ldjam.hamorigami.setup.loader.commands.CommandBehavior;
+import ldjam.hamorigami.setup.loader.commands.CommandParser;
+import ldjam.hamorigami.setup.loader.commands.CommandParserBuilder;
+import ldjam.hamorigami.setup.loader.commands.inputs.NumberInput;
+import ldjam.hamorigami.setup.loader.commands.inputs.PositionInput;
+import ldjam.hamorigami.setup.loader.commands.inputs.SecondInput;
+import ldjam.hamorigami.setup.loader.commands.inputs.StringInput;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Map;
 
 public class GameplaySetupLoader {
 
@@ -61,7 +69,7 @@ public class GameplaySetupLoader {
          // begin cutscene
          if (line.toLowerCase().startsWith("begin cutscene")) {
             ScanMode oldScanMode = scanMode;
-            if (scanMode == ScanMode.GAMEPLAY && previousScanmode == ScanMode.EVENING_CUTSCENE && !morningCutscene) {
+            if (scanMode == ScanMode.GAMEPLAY && (previousScanmode == ScanMode.EVENING_CUTSCENE || previousScanmode == ScanMode.GAMEPLAY) && !morningCutscene) {
                morningCutscene = true;
                scanMode = ScanMode.MORNING_CUTSCENE;
             } else {
@@ -82,249 +90,181 @@ public class GameplaySetupLoader {
             cutsceneBuilder = new CutsceneBuilder(context);
             continue;
          }
-         if (scanMode == ScanMode.GAMEPLAY && line.toLowerCase().startsWith("spawn")) {
+         if (scanMode == ScanMode.GAMEPLAY && line.toLowerCase().startsWith("at")) {
             morningCutscene = true;
          }
          if (scanMode == ScanMode.GAMEPLAY) {
-            processGameplay(line, daySetupBuilder);
+            CommandParser parser = buildIngameCommandParser(daySetupBuilder);
+            parser.parse(line.split(" "));
          }
          if (scanMode == ScanMode.EVENING_CUTSCENE || scanMode == ScanMode.MORNING_CUTSCENE) {
-            processCutscene(line, cutsceneBuilder);
+            CommandParser parser = buildCutsceneCommandParser(cutsceneBuilder);
+            parser.parse(line.split(" "));
          }
       }
       builder.addDay(daySetupBuilder.build());
       return builder.build();
    }
 
-   private void processGameplay(String line, DaySetupBuilder daySetupBuilder) {
-      final int spawnAmount = getSpawnAmount(line);
-      final SpiritType spiritType = getSpiritType(line);
-      float timeValue = getTimeValue(line);
-      SpiritType[] types = new SpiritType[spawnAmount];
-      Arrays.fill(types, spiritType);
-      if (line.toLowerCase().contains(" every ")) {
-         // spawn every x
-         if (timeValue == 0f) {
-            throw new GdxRuntimeException("Time interval cannot be 0: " + line);
-         }
-         if (line.toLowerCase().contains(" second")) {
-            for (float currentSeconds = timeValue; currentSeconds <= GameplaySetup.SECONDS_PER_DAY; currentSeconds += timeValue) {
-               daySetupBuilder.addSpawns(currentSeconds, types);
-            }
-         } else if (line.contains("%")) {
-            float convertedSeconds = GameplaySetup.SECONDS_PER_DAY / 100f * timeValue;
-            for (float currentSeconds = convertedSeconds; currentSeconds <= GameplaySetup.SECONDS_PER_DAY; currentSeconds += convertedSeconds) {
-               daySetupBuilder.addSpawns(currentSeconds, types);
-            }
-         } else {
-            throw new GdxRuntimeException("Invalid spawn interval: " + line);
-         }
-      } else if (line.toLowerCase().contains(" at ")) {
-         if (line.toLowerCase().contains(" second")) {
-            daySetupBuilder.addSpawns(timeValue, types);
-         } else if (line.contains("%")) {
-            float convertedSeconds = GameplaySetup.SECONDS_PER_DAY / 100f * timeValue;
-            daySetupBuilder.addSpawns(convertedSeconds, types);
-         } else {
-            throw new GdxRuntimeException("Invalid spawn interval: " + line);
-         }
-      } else {
-         throw new GdxRuntimeException("Invalid line: " + line);
-      }
+   private CommandParser buildIngameCommandParser(final DaySetupBuilder daySetupBuilder) {
+      return new CommandParserBuilder()
+            // at <time> spawn <spirit> times <amount>
+            .withCommand("at", new CommandBehavior() {
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        float seconds = convertToSeconds((String) args.get("at"));
+                        String spirit = (String) args.get("spawn");
+                        int amount = args.containsKey("times") ? (Integer) args.get("times") : 1;
+                        SpiritType[] spirits = convertToSpiritTypes(spirit, amount);
+                        daySetupBuilder.addSpawns(seconds, spirits);
+                     }
+                  }, new StringInput(),
+                  new Argument("spawn", new StringInput()),
+                  new Argument("times", new NumberInput()))
+            // every <time> spawn <spirit> times <amount>
+            .withCommand("every", new CommandBehavior() {
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        float seconds = convertToSeconds((String) args.get("every"));
+                        String spirit = (String) args.get("spawn");
+                        int amount = args.containsKey("times") ? (Integer) args.get("times") : 1;
+                        SpiritType[] spirits = convertToSpiritTypes(spirit, amount);
+                        for (float currentSeconds = seconds; currentSeconds <= GameplaySetup.SECONDS_PER_DAY; currentSeconds += seconds) {
+                           daySetupBuilder.addSpawns(currentSeconds, spirits);
+                        }
+                     }
+                  }, new StringInput(),
+                  new Argument("spawn", new StringInput()),
+                  new Argument("times", new NumberInput()))
+            .build();
    }
 
-   private SpiritType getSpiritType(String line) {
-      int endIndex = line.toLowerCase().indexOf(" at");
-      if (endIndex == -1) {
-         endIndex = line.toLowerCase().indexOf(" every");
-      }
-      if (endIndex == -1) {
-         throw new GdxRuntimeException("Invalid syntax: " + line);
-      }
-      int startIndex = line.toLowerCase().indexOf("x ");
-      if (startIndex == -1) {
-         startIndex = 6;
-      } else {
-         startIndex += 2;
-      }
-      String spiritName = line.substring(startIndex, endIndex);
-      SpiritType resolvedType = SpiritType.resolveByName(spiritName);
-      if (resolvedType == null) {
-         throw new GdxRuntimeException("Unsupported spirit type: " + spiritName + " at @ " + line);
-      }
-      return resolvedType;
+   private CommandParser buildCutsceneCommandParser(final CutsceneBuilder cutsceneBuilder) {
+      return new CommandParserBuilder()
+            // wait <seconds>
+            .withCommand("wait", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  Float time = (Float) args.get("wait");
+                  cutsceneBuilder.wait(time);
+               }
+            }, new SecondInput())
+            // reset <id>
+            .withCommand("reset", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String id = (String) args.get("reset");
+                  cutsceneBuilder.clearTweens(id);
+               }
+            }, new StringInput())
+            // spawn <id> at <position>
+            .withCommand("spawn", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String id = (String) args.get("spawn");
+                  String anchor = (String) args.get("at");
+                  SpiritType type = SpiritType.resolveByName(id);
+                  if (type == SpiritType.SPIRIT_EARTH) {
+                     cutsceneBuilder.spawn(id, type, anchor, true);
+                  } else {
+                     cutsceneBuilder.spawn(id, type, anchor);
+                  }
+               }
+            }, new StringInput(), new Argument("at", new StringInput()))
+            // fadeIn <id> for <seconds>
+            .withCommand("fadein", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String id = (String) args.get("fadein");
+                  float duration = (Float) args.get("for");
+                  cutsceneBuilder.fadeIn(id, duration);
+               }
+            }, new StringInput(), new Argument("for", new SecondInput()))
+            // fadeOut <id> for <seconds>
+            .withCommand("fadeout", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String id = (String) args.get("fadeout");
+                  float duration = (Float) args.get("for");
+                  cutsceneBuilder.fadeOut(id, duration);
+               }
+            }, new StringInput(), new Argument("for", new SecondInput()))
+            // say <id> on <id>
+            .withCommand("say", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String sentenceId = (String) args.get("say");
+                  String id = (String) args.get("on");
+                  cutsceneBuilder.say(sentenceId, id);
+               }
+            }, new StringInput(), new Argument("on", new StringInput()))
+            // emote <id> on <id>
+            .withCommand("emote", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String emoteId = (String) args.get("emote");
+                  String id = (String) args.get("on");
+                  Emote emote = Emote.valueOf(emoteId.toUpperCase());
+                  cutsceneBuilder.emote(emote, id);
+               }
+            }, new StringInput(), new Argument("on", new StringInput()))
+            // start <attribute> on <id>
+            .withCommand("start", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String attribute = (String) args.get("start");
+                  String id = (String) args.get("on");
+                  cutsceneBuilder.setAttribute(id, attribute);
+               }
+            }, new StringInput(), new Argument("on", new StringInput()))
+            // stop <attribute> on <id>
+            .withCommand("stop", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String attribute = (String) args.get("stop");
+                  String id = (String) args.get("on");
+                  cutsceneBuilder.removeAttribute(id, attribute);
+               }
+            }, new StringInput(), new Argument("on", new StringInput()))
+            // move <id> by <position> for <time> second [looped]
+            .withCommand("move", new CommandBehavior() {
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        String id = (String) args.get("move");
+                        Vector2 direction = (Vector2) args.get("by");
+                        boolean looped = args.containsKey("looped");
+                        float duration = args.containsKey("for") ? (float) args.get("for") : 1f;
+                        cutsceneBuilder.moveBy(id, direction.x, direction.y, duration, looped);
+                     }
+                  }, new StringInput(), new Argument("by", new PositionInput()),
+                  new Argument("for", new SecondInput()),
+                  new Argument("looped", new StringInput()))
+            // shake for <seconds> with intensity <intensity>
+            .withCommand("shake", new CommandBehavior() {
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        float seconds = args.containsKey("for") ? (float) args.get("for") : 1f;
+                        float intensity = args.containsKey("intensity") ? (float) args.get("intensity") : 1f;
+                        cutsceneBuilder.shakeScreen(intensity, seconds);
+                     }
+                  }, new Argument("for", new NumberInput()),
+                  new Argument("intensity", new NumberInput()))
+            .build();
    }
 
-   private float getTimeValue(String line) {
-      int startIndex = line.toLowerCase().indexOf("every ");
-      if (startIndex != -1) {
-         startIndex += 6;
-      } else {
-         startIndex = line.toLowerCase().indexOf("at ");
-         if (startIndex != -1) {
-            startIndex += 3;
-         }
+   private float convertToSeconds(String secondsOrPercentage) {
+      if (secondsOrPercentage.contains("%")) {
+         float percentage = Float.parseFloat(secondsOrPercentage.replace("%", ""));
+         return GameplaySetup.SECONDS_PER_DAY / 100f * percentage;
       }
-      int endIndex = line.toLowerCase().indexOf(" second");
-      if (endIndex == -1) {
-         endIndex = line.indexOf("%");
-      }
-      if (startIndex == -1 || endIndex == -1) {
-         throw new GdxRuntimeException("Invalid syntax: " + line);
-      }
-      String timeValue = line.substring(startIndex, endIndex);
-      return Float.parseFloat(timeValue.trim());
+      return Float.parseFloat(secondsOrPercentage);
    }
 
-   private int getSpawnAmount(String line) {
-      int startIndex = line.toLowerCase().indexOf("x ");
-      if (startIndex == -1) {
-         return 1;
+   private SpiritType[] convertToSpiritTypes(String name, int amount) {
+      SpiritType[] types = new SpiritType[amount];
+      for (int i = 0; i < amount; ++i) {
+         types[i] = SpiritType.resolveByName(name);
       }
-      String number = line.replace("spawn", "").replace(line.substring(startIndex), "");
-      return Integer.parseInt(number.trim());
-   }
-
-   private void processCutscene(String line, CutsceneBuilder cutsceneBuilder) {
-      String[] args = line.split(" ");
-      if (line.toLowerCase().contains(" spawns ")) {
-         processSpawn(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().startsWith("wait ")) {
-         processWait(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" fades in for ")) {
-         processFadeIn(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" fades out for ")) {
-         processFadeOut(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" says ")) {
-         processSays(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" emotes with ")) {
-         processEmotes(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" starts ") || line.contains(" stops ")) {
-         processModifyAttribute(line, args, cutsceneBuilder);
-      } else if (line.toLowerCase().contains(" moves ")) {
-         processMovesBy(line, args, cutsceneBuilder);
-      } else if (line.startsWith("reset ")) {
-         processReset(line, args, cutsceneBuilder);
-      } else if (line.startsWith("shake with intensity ")) {
-         processShake(line, args, cutsceneBuilder);
-      } else {
-         throw new GdxRuntimeException("Invalid syntax: " + line);
-      }
-   }
-
-   private void processShake(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 7) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: shake with intensity <value> for <time> seconds");
-      }
-      float intensity = Float.parseFloat(args[3]);
-      float duration = Float.parseFloat(args[5]);
-      cutsceneBuilder.shakeScreen(intensity, duration);
-   }
-
-   private void processSpawn(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 4 && args.length != 9 && args.length != 2) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", must be <entity> spawns [<direction> of <anchor>] [at <x>,<y>]");
-      }
-      String[] positionString = args[3].split(",");
-      if (positionString.length != 2) {
-         throw new GdxRuntimeException("Invalid position specified: " + line);
-      }
-      float x = Float.parseFloat(positionString[0]);
-      float y = Float.parseFloat(positionString[1]);
-      String entityName = args[0];
-      if (entityName.equals("kodama")) {
-         cutsceneBuilder.spawn("kodama", SpiritType.SPIRIT_EARTH, x, y, true);
-      } else {
-         SpiritType type = SpiritType.resolveByName(entityName);
-         if (type == null) {
-            throw new GdxRuntimeException("Unsupported spirit type: " + entityName + " @ " + line);
-         }
-         cutsceneBuilder.spawn(entityName, type, x, y);
-      }
-   }
-
-   private void processReset(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 2) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: reset <entity>");
-      }
-      cutsceneBuilder.clearTweens(args[1]);
-   }
-
-   private void processWait(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 3) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: wait <number> seconds");
-      }
-      float seconds = Float.parseFloat(args[1]);
-      cutsceneBuilder.wait(seconds);
-   }
-
-   private void processFadeIn(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 6) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> fades in for <time> seconds");
-      }
-      String entity = args[0];
-      float seconds = Float.parseFloat(args[4]);
-      cutsceneBuilder.fadeIn(entity, seconds);
-   }
-
-   private void processFadeOut(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 6) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> fades out for <time> seconds");
-      }
-      String entity = args[0];
-      float seconds = Float.parseFloat(args[4]);
-      cutsceneBuilder.fadeOut(entity, seconds);
-   }
-
-   private void processSays(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      int startIndex = 0;
-      int endIndex = line.indexOf(" ");
-      String entity = line.substring(startIndex, endIndex);
-      String sentence = line.substring(endIndex + 6);
-      cutsceneBuilder.say(sentence, entity);
-   }
-
-   private void processEmotes(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 4) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entityy> emotes with <emote>");
-      }
-      Emote emote = Emote.valueOf(args[3].toUpperCase().replace(" ", "_"));
-      String entity = args[0];
-      cutsceneBuilder.emote(emote, entity);
-   }
-
-   private void processModifyAttribute(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length != 3) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected <entity> <starts|stops> <attribute>");
-      }
-      String entity = args[0];
-      String mode = args[1];
-      String attribute = args[2];
-
-      if (mode.equals("starts")) {
-         cutsceneBuilder.setAttribute(entity, attribute);
-      } else if (mode.equals("stops")) {
-         cutsceneBuilder.removeAttribute(entity, attribute);
-      } else {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected <entity> <starts|stops> <attribute>");
-      }
-   }
-
-   private void processMovesBy(String line, String[] args, CutsceneBuilder cutsceneBuilder) {
-      if (args.length < 6 && args.length != 3 && args.length != 4) {
-         throw new GdxRuntimeException("Invalid syntax: " + line + ", expected: <entity> moves <x>,<y> [for <unit> seconds] [looped]");
-      }
-      String entity = args[0];
-      String[] positionString = args[2].split(",");
-      float duration = args.length > 4 ? Float.parseFloat(args[4]) : 1f;
-      float x = Float.parseFloat(positionString[0]);
-      float y = positionString.length > 1 ? Float.parseFloat(positionString[1]) : 0f;
-      if ((args.length == 7 && args[6].equals("looped"))
-            || (args.length == 4 && args[3].equals("looped"))) {
-         cutsceneBuilder.moveByYoyo(entity, x, y, duration);
-      } else {
-         cutsceneBuilder.moveBy(entity, x, y, duration);
-      }
-
+      return types;
    }
 }

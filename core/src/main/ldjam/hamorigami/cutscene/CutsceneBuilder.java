@@ -202,7 +202,7 @@ public class CutsceneBuilder {
    public CutsceneBuilder spawn(final String id, final SpiritType spirit, String anchorName, int mask, float offsetX, float offsetY, final boolean persistent) {
       Anchor anchor = context.getAnchorManager().getAnchor(anchorName);
       if (anchor == null) {
-         Gdx.app.error("ANCHOR", "Anchor with name " + anchorName + " not found.");
+         Gdx.app.error("ANCHOR", "Anchor with name '" + anchorName + "' not found.");
          return spawn(id, spirit, offsetX, offsetY, persistent);
       }
       return spawn(id, spirit, anchor.getX(mask) + offsetX, anchor.getY(mask) + offsetY, persistent);
