@@ -205,7 +205,12 @@ public class CutsceneBuilder {
          Gdx.app.error("ANCHOR", "Anchor with name '" + anchorName + "' not found.");
          return spawn(id, spirit, offsetX, offsetY, persistent);
       }
-      return spawn(id, spirit, anchor.getX(mask) + offsetX, anchor.getY(mask) + offsetY, persistent);
+      return spawn(
+            id,
+            spirit,
+            anchor.getX(mask) + offsetX - context.getGameCamera().getLeft(),
+            anchor.getY(mask) + offsetY - context.getGameCamera().getTop(),
+            persistent);
    }
 
    public CutsceneBuilder spawn(final String id, final SpiritType spirit, final float x, final float y) {

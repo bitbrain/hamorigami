@@ -50,12 +50,12 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
       this.context = context;
       context.getGameCamera().setStickToWorldBounds(false);
       context.getGameCamera().setZoom(800, GameCamera.ZoomMode.TO_WIDTH);
-      this.setup = buildGameplaySetup(context);
       ColorTransition colorTransition = new ColorTransition();
       colorTransition.setColor(Color.WHITE.cpy());
       context.setBackgroundColor(Color.valueOf("7766ff"));
       context.setDebug(getGame().isDebug());
       setupLevel(context);
+      this.setup = buildGameplaySetup(context);
       setupGraphics(context);
       cityscape = new Cityscape(setup, context);
       context.getRenderPipeline().putAfter(RenderPipeIds.BACKGROUND, "cityscape", cityscape);
