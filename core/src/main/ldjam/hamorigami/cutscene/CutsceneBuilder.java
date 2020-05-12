@@ -234,11 +234,13 @@ public class CutsceneBuilder {
             if (context.getGameWorld().getObjectById(id) != null) {
                context.getGameWorld().getObjectById(id).setPosition(x, y);
             } else {
+               GameObject object;
                if (persistent) {
-                  context.getEntityFactory().spawnSpirit(spirit, x, y, mutator);
+                  object = context.getEntityFactory().spawnSpirit(spirit, x, y, mutator);
                } else {
-                  context.getEntityFactory().spawnSpirit(spirit, x, y, mutator, "cutscene");
+                  object = context.getEntityFactory().spawnSpirit(spirit, x, y, mutator, "cutscene");
                }
+               context.getAnchorManager().addAnchor(id, object);
             }
          }
 
@@ -246,6 +248,7 @@ public class CutsceneBuilder {
          public void stop() {
             if (!persistent) {
                context.getGameWorld().remove(id);
+               context.getAnchorManager().remove(id);
             }
          }
       });

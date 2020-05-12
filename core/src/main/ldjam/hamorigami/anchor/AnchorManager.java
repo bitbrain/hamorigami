@@ -24,4 +24,8 @@ public class AnchorManager {
    public Anchor getAnchor(String name) {
       return anchors.get(name);
    }
+
+   public void remove(String id) {
+      this.anchors.remove(id);
+   }
 }
