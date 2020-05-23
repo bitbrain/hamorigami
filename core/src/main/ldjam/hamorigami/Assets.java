@@ -108,5 +108,7 @@ public interface Assets {
       String EARTH = "earth.p";
       String FIRE = "fire.p";
       String WATER = "water.p";
+
+      String RAIN = "rain.p";
    }
 }

@@ -94,6 +94,7 @@ public class GameplayPhase implements GamePhase, Proceedable {
       for (GameObject existingSpirit : context.getGameWorld().getGroup("spirits")) {
          if (existingSpirit.getType() == SPIRIT_EARTH) {
             this.playerObject = existingSpirit;
+            context.getBehaviorManager().apply(context.getCameraParallaxor(), playerObject);
             break;
          }
       }

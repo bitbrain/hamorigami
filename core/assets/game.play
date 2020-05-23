@@ -6,6 +6,7 @@
 DAY 1
 begin cutscene
 
+rain is starting
 wait 2 seconds
 spawn kodama at tree aligned north,west offset 50,50
 fadeIn kodama for 2 seconds

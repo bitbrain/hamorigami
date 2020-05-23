@@ -270,11 +270,6 @@ public class CutsceneBuilder {
       return this;
    }
 
-   public CutsceneBuilder moveCameraTo(float x, float y, float duration) {
-      // TODO add braingdx tween support for this
-      return this;
-   }
-
    public CutsceneBuilder wait(float seconds) {
       currentTime += seconds + emoteTime;
       emoteTime = 0;
@@ -461,6 +456,21 @@ public class CutsceneBuilder {
          }
       });
       currentTime += delay;
+      return this;
+   }
+
+   public CutsceneBuilder setRainIntensity(final float intensity) {
+      getCurrentSteps().add(new CutsceneStep() {
+         @Override
+         public void execute() {
+            context.getWeatherManager().setRainIntensity(intensity);
+         }
+
+         @Override
+         public void stop() {
+
+         }
+      });
       return this;
    }
 

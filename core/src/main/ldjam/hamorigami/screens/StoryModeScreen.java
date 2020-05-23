@@ -3,6 +3,7 @@ package ldjam.hamorigami.screens;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.bitbrain.braingdx.debug.DebugMetric;
 import ldjam.hamorigami.HamorigamiGame;
+import ldjam.hamorigami.behavior.CameraParallaxor;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.gamemode.*;
 import ldjam.hamorigami.model.HealthData;

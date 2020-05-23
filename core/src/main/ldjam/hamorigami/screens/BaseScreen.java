@@ -61,21 +61,6 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
       context.getRenderPipeline().putAfter(RenderPipeIds.BACKGROUND, "cityscape", cityscape);
    }
 
-   @Override
-   protected void onUpdate(float delta) {
-      super.onUpdate(delta);
-      if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-         context.getGameCamera().getInternalCamera().position.x -= 22.5f * delta;
-      } else if (Gdx.input.isKeyPressed(Input.Keys.L)) {
-         context.getGameCamera().getInternalCamera().position.x += 22.5f * delta;
-      }
-      if (Gdx.input.isKeyPressed(Input.Keys.I)) {
-         context.getGameCamera().getInternalCamera().position.y += 22.5f * delta;
-      } else if (Gdx.input.isKeyPressed(Input.Keys.K)) {
-         context.getGameCamera().getInternalCamera().position.y -= 22.5f * delta;
-      }
-   }
-
    private void setupLevel(HamorigamiContext context) {
 
       // add tree

@@ -3,7 +3,6 @@ package ldjam.hamorigami.setup.loader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import ldjam.hamorigami.anchor.AnchorManager;
 import ldjam.hamorigami.anchor.AnchorMask;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.cutscene.CutsceneBuilder;
@@ -158,22 +157,22 @@ public class GameplaySetupLoader {
             }, new StringInput())
             // spawn <id> at <position>
             .withCommand("spawn", new CommandBehavior() {
-               @Override
-               public void apply(Map<String, Object> args) {
-                  String id = (String) args.get("spawn");
-                  String anchor = (String) args.get("at");
-                  int anchorMask = args.containsKey("aligned")
-                        ? (int) args.get("aligned")
-                        : AnchorMask.CENTER.getByte();
-                  SpiritType type = SpiritType.resolveByName(id);
-                  Vector2 offset = args.containsKey("offset") ? (Vector2) args.get("offset") : new Vector2();
-                  if (type == SpiritType.SPIRIT_EARTH) {
-                     cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y, true);
-                  } else {
-                     cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y);
-                  }
-               }
-            }, new StringInput(),
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        String id = (String) args.get("spawn");
+                        String anchor = (String) args.get("at");
+                        int anchorMask = args.containsKey("aligned")
+                              ? (int) args.get("aligned")
+                              : AnchorMask.CENTER.getByte();
+                        SpiritType type = SpiritType.resolveByName(id);
+                        Vector2 offset = args.containsKey("offset") ? (Vector2) args.get("offset") : new Vector2();
+                        if (type == SpiritType.SPIRIT_EARTH) {
+                           cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y, true);
+                        } else {
+                           cutsceneBuilder.spawn(id, type, anchor, anchorMask, offset.x, offset.y);
+                        }
+                     }
+                  }, new StringInput(),
                   new Argument("at", new StringInput()),
                   new Argument("aligned", new AnchorMaskInput()),
                   new Argument("offset", new PositionInput()))
@@ -254,6 +253,21 @@ public class GameplaySetupLoader {
                         cutsceneBuilder.shakeScreen(intensity, seconds);
                      }
                   }, new Argument("for", new NumberInput()),
+                  new Argument("intensity", new NumberInput()))
+            // rain is starting [with intensity 1]
+            .withCommand("rain", new CommandBehavior() {
+                     @Override
+                     public void apply(Map<String, Object> args) {
+                        String method = ((String) args.get("is")).toLowerCase();
+                        float intensity = args.containsKey("intensity") ? (float) args.get("intensity") : 1f;
+                        if ("starting".equals(method)) {
+                           cutsceneBuilder.setRainIntensity(intensity);
+                        } else {
+                           cutsceneBuilder.setRainIntensity(0f);
+                        }
+
+                     }
+                  }, new Argument("is", new StringInput()),
                   new Argument("intensity", new NumberInput()))
             .build();
    }

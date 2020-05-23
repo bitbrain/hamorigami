@@ -10,15 +10,16 @@ import de.bitbrain.braingdx.tweens.SharedTweenManager;
 import de.bitbrain.braingdx.tweens.TweenUtils;
 import de.bitbrain.braingdx.util.Mutator;
 import de.bitbrain.braingdx.world.GameObject;
+import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.model.*;
 
 import static ldjam.hamorigami.model.ObjectType.GAUGE;
 
 public class EntityFactory {
 
-   private final GameContext2D context;
+   private final HamorigamiContext context;
 
-   public EntityFactory(GameContext2D context) {
+   public EntityFactory(HamorigamiContext context) {
       this.context = context;
    }
 
@@ -48,6 +49,7 @@ public class EntityFactory {
       context.getBehaviorManager().apply(object.getAttribute(Movement.class), object);
       if (spiritType.getParticleId() != null) {
          if (spiritType == SpiritType.SPIRIT_EARTH) {
+            context.getBehaviorManager().apply(context.getCameraParallaxor(), object);
             context.getParticleManager().attachEffect(spiritType.getParticleId(), object, 32f, 32f);
          } else {
             context.getParticleManager().attachEffect(spiritType.getParticleId(), object, 16f, 32f);

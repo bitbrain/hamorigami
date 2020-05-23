@@ -29,13 +29,13 @@ public class Cityscape extends RenderLayer2D {
       cityFront.scale(1.1f);
       cityFrontEvening = new ParallaxMap(CITYSCAPE_EVENING_FRONT, context.getGameCamera(), 1.4f);
       cityFrontEvening.scale(1.1f);
-      cityBack = new ParallaxMap(CITYSCAPE_DAY_MIDDLE, context.getGameCamera(), 1.2f);
+      cityBack = new ParallaxMap(CITYSCAPE_DAY_MIDDLE, context.getGameCamera(), 1.3f);
       cityBack.scale(1.1f);
-      cityBackEvening = new ParallaxMap(CITYSCAPE_EVENING_MIDDLE, context.getGameCamera(), 1.2f);
+      cityBackEvening = new ParallaxMap(CITYSCAPE_EVENING_MIDDLE, context.getGameCamera(), 1.3f);
       cityBackEvening.scale(1.1f);
-      cityFar = new ParallaxMap(CITYSCAPE_DAY_FAR, context.getGameCamera(), 1.01f);
+      cityFar = new ParallaxMap(CITYSCAPE_DAY_FAR, context.getGameCamera(), 1.1f);
       cityFar.scale(1.1f);
-      cityFarEvening = new ParallaxMap(CITYSCAPE_EVENING_FAR, context.getGameCamera(), 1.01f);
+      cityFarEvening = new ParallaxMap(CITYSCAPE_EVENING_FAR, context.getGameCamera(), 1.1f);
       cityFarEvening.scale(1.1f);
    }
 
