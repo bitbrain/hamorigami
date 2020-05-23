@@ -73,8 +73,6 @@ public class EntityFactory {
             context.getGameCamera().getTop() + 31);
       object.setAttribute(TreeStatus.class, new TreeStatus());
       object.setAttribute(HealthData.class, new HealthData(500));
-      //Light light = context.getLightingManager().createPointLight(500, Color.valueOf("e5a656"));
-      //context.getLightingManager().attach(light, object, true);
       return object;
    }
 

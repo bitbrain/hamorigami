@@ -39,10 +39,6 @@ public class ParallaxMap {
       this.initialOffsetY = (float) (targetY - camera.getTop());
    }
 
-   public void setAlpha(float alpha) {
-      this.alpha = alpha;
-   }
-
    public void scale(float scale) {
       this.scale = scale;
    }

@@ -9,6 +9,7 @@ import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.setup.GameplaySetup;
 
 import static ldjam.hamorigami.Assets.Textures.*;
+import static ldjam.hamorigami.GameColors.EVENING_COLOR;
 
 public class Cityscape extends RenderLayer2D {
 
@@ -18,25 +19,16 @@ public class Cityscape extends RenderLayer2D {
    private final ParallaxMap cityFront;
    private final ParallaxMap cityBack;
    private final ParallaxMap cityFar;
-   private final ParallaxMap cityFrontEvening;
-   private final ParallaxMap cityBackEvening;
-   private final ParallaxMap cityFarEvening;
 
    public Cityscape(GameplaySetup setup, HamorigamiContext context) {
       this.context = context;
       this.setup = setup;
       cityFront = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.4f);
       cityFront.scale(1.1f);
-      cityFrontEvening = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.4f);
-      cityFrontEvening.scale(1.1f);
       cityBack = new ParallaxMap(CITYSCAPE_MIDDLE, context.getGameCamera(), 1.3f);
       cityBack.scale(1.1f);
-      cityBackEvening = new ParallaxMap(CITYSCAPE_MIDDLE, context.getGameCamera(), 1.3f);
-      cityBackEvening.scale(1.1f);
       cityFar = new ParallaxMap(CITYSCAPE_FAR, context.getGameCamera(), 1.1f);
       cityFar.scale(1.1f);
-      cityFarEvening = new ParallaxMap(CITYSCAPE_FAR, context.getGameCamera(), 1.1f);
-      cityFarEvening.scale(1.1f);
    }
 
    @Override
@@ -50,20 +42,20 @@ public class Cityscape extends RenderLayer2D {
 
       Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
       Color color = batch.getColor();
-      float alpha = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
-      batch.setColor(1f, 1f, 1f, alpha);
+      float transitionValue = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
+      batch.setColor(1f, 1f, 1f, transitionValue);
       batch.draw(background_noon, x, y);
-      batch.setColor(color);
 
+      Color eveningColor = Color.WHITE.cpy().lerp(EVENING_COLOR, transitionValue);
+
+      cityFar.setColor(eveningColor);
       cityFar.draw(batch);
-      cityFarEvening.setAlpha(alpha);
-      cityFarEvening.draw(batch);
+      cityBack.setColor(eveningColor);
       cityBack.draw(batch);
-      cityBackEvening.setAlpha(alpha);
-      cityBackEvening.draw(batch);
+      cityFront.setColor(eveningColor);
       cityFront.draw(batch);
-      cityFrontEvening.setAlpha(alpha);
-      cityFrontEvening.draw(batch);
+
+      batch.setColor(color);
       batch.end();
    }
 }
