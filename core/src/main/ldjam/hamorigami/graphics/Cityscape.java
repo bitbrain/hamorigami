@@ -25,17 +25,17 @@ public class Cityscape extends RenderLayer2D {
    public Cityscape(GameplaySetup setup, HamorigamiContext context) {
       this.context = context;
       this.setup = setup;
-      cityFront = new ParallaxMap(CITYSCAPE_DAY_FRONT, context.getGameCamera(), 1.4f);
+      cityFront = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.4f);
       cityFront.scale(1.1f);
-      cityFrontEvening = new ParallaxMap(CITYSCAPE_EVENING_FRONT, context.getGameCamera(), 1.4f);
+      cityFrontEvening = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.4f);
       cityFrontEvening.scale(1.1f);
-      cityBack = new ParallaxMap(CITYSCAPE_DAY_MIDDLE, context.getGameCamera(), 1.3f);
+      cityBack = new ParallaxMap(CITYSCAPE_MIDDLE, context.getGameCamera(), 1.3f);
       cityBack.scale(1.1f);
-      cityBackEvening = new ParallaxMap(CITYSCAPE_EVENING_MIDDLE, context.getGameCamera(), 1.3f);
+      cityBackEvening = new ParallaxMap(CITYSCAPE_MIDDLE, context.getGameCamera(), 1.3f);
       cityBackEvening.scale(1.1f);
-      cityFar = new ParallaxMap(CITYSCAPE_DAY_FAR, context.getGameCamera(), 1.1f);
+      cityFar = new ParallaxMap(CITYSCAPE_FAR, context.getGameCamera(), 1.1f);
       cityFar.scale(1.1f);
-      cityFarEvening = new ParallaxMap(CITYSCAPE_EVENING_FAR, context.getGameCamera(), 1.1f);
+      cityFarEvening = new ParallaxMap(CITYSCAPE_FAR, context.getGameCamera(), 1.1f);
       cityFarEvening.scale(1.1f);
    }
 

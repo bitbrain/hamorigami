@@ -245,8 +245,8 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
                   .build())
             .build()));
 
-      context.getRenderManager().register(ObjectType.TREE, new DayProgressRenderer(setup, TREE, TREE_EVENING));
-      context.getRenderManager().register(ObjectType.FLOOR, new DayProgressRenderer(setup, BACKGROUND_FLOOR, BACKGROUND_FLOOR_EVENING));
+      context.getRenderManager().register(ObjectType.TREE, new DayProgressRenderer(setup, TREE, TREE));
+      context.getRenderManager().register(ObjectType.FLOOR, new DayProgressRenderer(setup, BACKGROUND_FLOOR, BACKGROUND_FLOOR));
       context.getRenderManager().register(ObjectType.GAUGE, new GaugeRenderer(treeObject));
    }
 

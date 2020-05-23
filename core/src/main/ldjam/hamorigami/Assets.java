@@ -21,11 +21,9 @@ public interface Assets {
       String SPIRIT_WATER_AME_SPRITESHEET = "ame-sprite-sheet.png";
       String SPIRIT_FIRE_HI_SPRITESHEET = "hi-sprite-sheet.png";
 
-      String TREE = "midday-tree.png";
-      String TREE_EVENING = "sunset-tree.png";
+      String TREE = "tree.png";
 
       String BACKGROUND_FLOOR = "background-floor.png";
-      String BACKGROUND_FLOOR_EVENING = "background-floor-twilight.png";
 
       String LOGO = "logo.png";
 
@@ -36,13 +34,11 @@ public interface Assets {
 
       String SKY_DAY = "sky-midday-clear.png";
       String SKY_EVENING = "sky-evening-clear.png";
+      String SKY_RAIN = "sky-rain.png";
 
-      String CITYSCAPE_DAY_FRONT = "city-scape-midday-front.png";
-      String CITYSCAPE_DAY_MIDDLE = "city-scape-midday-middle.png";
-      String CITYSCAPE_DAY_FAR = "city-scape-midday-far.png";
-      String CITYSCAPE_EVENING_FRONT = "city-scape-evening-front.png";
-      String CITYSCAPE_EVENING_MIDDLE = "city-scape-evening-middle.png";
-      String CITYSCAPE_EVENING_FAR = "city-scape-evening-far.png";
+      String CITYSCAPE_FRONT = "cityscape-front.png";
+      String CITYSCAPE_MIDDLE = "cityscape-middle.png";
+      String CITYSCAPE_FAR = "cityscape-far.png";
 
       String BUBBLE = "bubble.9.png";
       String BUBBLE_BOTTOM = "bubble-bottom.png";
