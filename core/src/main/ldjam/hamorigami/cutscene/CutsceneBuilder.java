@@ -459,11 +459,26 @@ public class CutsceneBuilder {
       return this;
    }
 
-   public CutsceneBuilder setRainIntensity(final float intensity) {
+   public CutsceneBuilder startRain() {
       getCurrentSteps().add(new CutsceneStep() {
          @Override
          public void execute() {
-            context.getWeatherManager().setRainIntensity(intensity);
+            context.getWeatherManager().setRainIntensity(1f);
+         }
+
+         @Override
+         public void stop() {
+
+         }
+      });
+      return this;
+   }
+
+   public CutsceneBuilder stopRain() {
+      getCurrentSteps().add(new CutsceneStep() {
+         @Override
+         public void execute() {
+            context.getWeatherManager().setRainIntensity(0f);
          }
 
          @Override

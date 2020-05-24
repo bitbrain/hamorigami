@@ -1,5 +1,7 @@
 package ldjam.hamorigami.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,6 +18,7 @@ import de.bitbrain.braingdx.screens.AbstractScreen;
 import de.bitbrain.braingdx.screens.ColorTransition;
 import de.bitbrain.braingdx.util.ArgumentFactory;
 import de.bitbrain.braingdx.world.GameObject;
+import ldjam.hamorigami.GameColors;
 import ldjam.hamorigami.HamorigamiGame;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.graphics.*;
@@ -46,13 +49,21 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
    }
 
    @Override
+   protected void onUpdate(float delta) {
+      super.onUpdate(delta);
+      if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+         context.getWeatherManager().thunder();
+      }
+   }
+
+   @Override
    protected void onCreate(final HamorigamiContext context) {
       this.context = context;
       context.getGameCamera().setStickToWorldBounds(false);
       context.getGameCamera().setZoom(800, GameCamera.ZoomMode.TO_WIDTH);
       ColorTransition colorTransition = new ColorTransition();
       colorTransition.setColor(Color.WHITE.cpy());
-      context.setBackgroundColor(Color.valueOf("7766ff"));
+      context.setBackgroundColor(GameColors.EVENING_AMBIENT_COLOR);
       context.setDebug(getGame().isDebug());
       setupLevel(context);
       this.setup = buildGameplaySetup(context);
@@ -63,17 +74,26 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
             float x = context.getGameCamera().getLeft();
             float y = context.getGameCamera().getTop();
 
-            Texture background = Asset.get(SKY_DAY, Texture.class);
-
             Color color = batch.getColor();
-            batch.begin();
-            batch.draw(background, x, y);
+            if (context.getWeatherManager().getRainIntensity() == 0f) {
+               Texture background = Asset.get(SKY_DAY, Texture.class);
 
-            Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
-            float eveningFactor = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
-            batch.setColor(1f, 1f, 1f, eveningFactor);
-            batch.draw(background_noon, x, y);
-            batch.end();
+               batch.setColor(Color.WHITE);
+               batch.begin();
+               batch.draw(background, x, y);
+
+               Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
+               float eveningFactor = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
+               batch.setColor(1f, 1f, 1f, eveningFactor);
+               batch.draw(background_noon, x, y);
+               batch.end();
+            } else {
+               Texture background = Asset.get(SKY_RAIN, Texture.class);
+               batch.setColor(Color.WHITE);
+               batch.begin();
+               batch.draw(background, x, y);
+               batch.end();
+            }
             batch.setColor(color);
          }
       });
@@ -268,8 +288,8 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
                   .build())
             .build()));
 
-      context.getRenderManager().register(ObjectType.TREE, new DayProgressRenderer(setup, TREE));
-      context.getRenderManager().register(ObjectType.FLOOR, new DayProgressRenderer(setup, BACKGROUND_FLOOR));
+      context.getRenderManager().register(ObjectType.TREE, new DayProgressRenderer(setup, context.getWeatherManager(), TREE));
+      context.getRenderManager().register(ObjectType.FLOOR, new DayProgressRenderer(setup, context.getWeatherManager(), BACKGROUND_FLOOR));
       context.getRenderManager().register(ObjectType.GAUGE, new GaugeRenderer(treeObject));
    }
 

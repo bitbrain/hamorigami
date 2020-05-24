@@ -86,7 +86,7 @@ public class GameplayPhase implements GamePhase, Proceedable {
       cityscapeMusic.setVolume(0.2f);
       music.setLooping(true);
       music.setVolume(0.1f);
-      music.play();
+      //music.play();
 
       EntityFactory entityFactory = new EntityFactory(context);
 

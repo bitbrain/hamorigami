@@ -1,6 +1,8 @@
 package ldjam.hamorigami.audio;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.audio.AudioManager;
 
 import java.util.Random;
@@ -18,6 +20,8 @@ public class JukeBox {
    private float basePitch = 1f;
    private float minimumIntervalMillis = MINIMUM_INTERVAL_MILLIS;
    private Random random = new Random();
+
+   private boolean threedeesound = true;
 
    public JukeBox(AudioManager audioManager, float range, String... audioFiles) {
       this.audioManager = audioManager;
@@ -49,7 +53,9 @@ public class JukeBox {
       this.minimumIntervalMillis = minimumIntervalMillis;
    }
 
-
+   public void set3DSound(boolean enabled) {
+      this.threedeesound = enabled;
+   }
 
    public void playSound(float x, float y) {
       if (audioFiles == null || audioFiles.length == 0) {
@@ -60,8 +66,12 @@ public class JukeBox {
          return;
       }
       String audioFile = audioFiles[(int) (audioFiles.length * random.nextFloat())];
-      float pitch = (float) ((basePitch - pitchVariation / 2f) + (pitchVariation * Math.random()));
-      audioManager.spawnSound(audioFile, x, y, pitch, volume, range);
+      if (threedeesound) {
+         float pitch = (float) ((basePitch - pitchVariation / 2f) + (pitchVariation * Math.random()));
+         audioManager.spawnSound(audioFile, x, y, pitch, volume, range);
+      } else {
+         Asset.get(audioFile, Sound.class).play(1f);
+      }
       interval = System.currentTimeMillis();
    }
 }

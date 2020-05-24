@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.pipeline.RenderLayer2D;
 import ldjam.hamorigami.Assets;
+import ldjam.hamorigami.GameColors;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.setup.GameplaySetup;
+import ldjam.hamorigami.weather.WeatherManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +36,11 @@ public class Cityscape extends RenderLayer2D {
 
    private final List<Layer> layers = new ArrayList<>();
    private final Map<Layer, ParallaxMap> parallaxMap = new HashMap<Layer, ParallaxMap>();
+   private final WeatherManager weatherManager;
 
    public Cityscape(GameplaySetup setup, HamorigamiContext context, Layer... parallaxLayers) {
       this.setup = setup;
+      this.weatherManager = context.getWeatherManager();
       for (Layer layer : parallaxLayers) {
          layers.add(layer);
          ParallaxMap map = new ParallaxMap(layer.texture, context.getGameCamera(), layer.parallaxity);
@@ -50,17 +54,13 @@ public class Cityscape extends RenderLayer2D {
 
       float eveningFactor = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
       float dayFactor = 1f - eveningFactor;
-      Color middayAtmosphericColor = Color.WHITE.cpy().lerp(MIDDAY_ATMOSPHERIC_COLOR, dayFactor);
-      Color eveningAtmosphericColor = middayAtmosphericColor.lerp(EVENING_ATMOSPHERE_COLOR, eveningFactor);
-      Color middayAmbientColor = Color.WHITE.cpy().lerp(MIDDAY_AMBIENT_COLOR, dayFactor);
-      Color eveningAmbientColor = middayAmbientColor.lerp(EVENING_AMBIENT_COLOR, eveningFactor);
 
       ShaderProgram program = Asset.get(Assets.Shaders.TINT_SCATTERING, ShaderProgram.class);
       batch.setShader(program);
       for (Layer layer : layers) {
          batch.begin();
-         program.setUniformf("scatterColor", eveningAtmosphericColor);
-         program.setUniformf("tintColor", eveningAmbientColor);
+         program.setUniformf("scatterColor", getScatteringColor(weatherManager, eveningFactor, dayFactor));
+         program.setUniformf("tintColor", getAmbientColor(weatherManager, eveningFactor, dayFactor));
          program.setUniformf("tintIntensity", 0.7f);
          program.setUniformf("scatterIntensity", layer.scattering);
          parallaxMap.get(layer).draw(batch);

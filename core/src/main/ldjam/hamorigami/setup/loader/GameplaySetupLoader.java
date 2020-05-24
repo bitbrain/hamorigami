@@ -254,16 +254,15 @@ public class GameplaySetupLoader {
                      }
                   }, new Argument("for", new NumberInput()),
                   new Argument("intensity", new NumberInput()))
-            // rain is starting [with intensity 1]
+            // rain is starting
             .withCommand("rain", new CommandBehavior() {
                      @Override
                      public void apply(Map<String, Object> args) {
                         String method = ((String) args.get("is")).toLowerCase();
-                        float intensity = args.containsKey("intensity") ? (float) args.get("intensity") : 1f;
                         if ("starting".equals(method)) {
-                           cutsceneBuilder.setRainIntensity(intensity);
+                           cutsceneBuilder.startRain();
                         } else {
-                           cutsceneBuilder.setRainIntensity(0f);
+                           cutsceneBuilder.stopRain();
                         }
 
                      }

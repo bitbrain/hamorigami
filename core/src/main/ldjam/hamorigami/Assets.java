@@ -53,6 +53,8 @@ public interface Assets {
       String CITYSCAPE = "city_01.ogg";
       String FAIL = "fail.ogg";
       String MENU = "menu.ogg";
+
+      String RAIN_MEDIUM = "rain-medium.ogg";
    }
 
    @AssetSource(directory = "sound", assetClass = Sound.class)
@@ -98,6 +100,13 @@ public interface Assets {
       String SPEECH_SPIRIT_SUN_06 = "speech_light_06.ogg";
       String SPEECH_SPIRIT_SUN_07 = "speech_light_07.ogg";
       String SPEECH_SPIRIT_SUN_08 = "speech_light_08.ogg";
+
+      String THUNDER_01 = "thunder1.ogg";
+      String THUNDER_02 = "thunder2.ogg";
+      String THUNDER_03 = "thunder3.ogg";
+      String THUNDER_04 = "thunder4.ogg";
+      String THUNDER_05 = "thunder5.ogg";
+      String THUNDER_06 = "thunder6.ogg";
    }
 
    @AssetSource(directory = "particles", assetClass = ParticleEffect.class)

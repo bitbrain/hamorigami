@@ -35,9 +35,11 @@ public class StoryModeScreen extends BaseScreen {
       setupDebugUi(context);
 
       context.getRenderPipeline().put(HamorigamiContext.FURTHER_BACKGROUND_PARTICLES_LAYER,
-            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getFurtherBackgroundParticleManager(), setup, 3f));
+            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getFurtherBackgroundParticleManager(),
+                  context.getWeatherManager(), setup, 3f));
       context.getRenderPipeline().put(HamorigamiContext.BACKGROUND_PARTICLES_LAYER,
-            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getBackgroundParticleManager(), setup, 1f));
+            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getBackgroundParticleManager(),
+                  context.getWeatherManager(), setup, 1f));
    }
 
    @Override
