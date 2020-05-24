@@ -107,6 +107,7 @@ public interface Assets {
       String WATER = "water.p";
 
       String RAIN = "rain.p";
+      String RAIN_DISTANT = "rain-distant.p";
    }
 
    @AssetSource(directory = "shaders", assetClass = ShaderProgram.class)

@@ -2,10 +2,11 @@ package ldjam.hamorigami.screens;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.bitbrain.braingdx.debug.DebugMetric;
+import de.bitbrain.braingdx.graphics.particles.ParticleManagerImpl;
 import ldjam.hamorigami.HamorigamiGame;
-import ldjam.hamorigami.behavior.CameraParallaxor;
 import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.gamemode.*;
+import ldjam.hamorigami.graphics.AtmosphericParticleRenderLayer;
 import ldjam.hamorigami.model.HealthData;
 import ldjam.hamorigami.model.TreeStatus;
 import ldjam.hamorigami.setup.GameplaySetup;
@@ -32,6 +33,11 @@ public class StoryModeScreen extends BaseScreen {
       this.phaseHandler.addPhase(Phases.CREDITS, new CreditsPhase(phaseHandler));
 
       setupDebugUi(context);
+
+      context.getRenderPipeline().put(HamorigamiContext.FURTHER_BACKGROUND_PARTICLES_LAYER,
+            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getFurtherBackgroundParticleManager(), setup, 3f));
+      context.getRenderPipeline().put(HamorigamiContext.BACKGROUND_PARTICLES_LAYER,
+            new AtmosphericParticleRenderLayer((ParticleManagerImpl) context.getBackgroundParticleManager(), setup, 1f));
    }
 
    @Override

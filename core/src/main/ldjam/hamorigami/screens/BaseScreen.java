@@ -1,13 +1,14 @@
 package ldjam.hamorigami.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.GameCamera;
 import de.bitbrain.braingdx.graphics.animation.AnimationConfig;
 import de.bitbrain.braingdx.graphics.animation.AnimationFrames;
 import de.bitbrain.braingdx.graphics.animation.AnimationSpriteSheet;
+import de.bitbrain.braingdx.graphics.pipeline.RenderLayer2D;
 import de.bitbrain.braingdx.graphics.pipeline.layers.RenderPipeIds;
 import de.bitbrain.braingdx.graphics.shader.ShaderConfig;
 import de.bitbrain.braingdx.screen.AbstractBrainGdxScreen2D;
@@ -32,7 +33,6 @@ import static ldjam.hamorigami.model.SpiritType.SPIRIT_WATER;
 public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame, HamorigamiContext> {
 
    protected GameObject treeObject;
-   protected Cityscape cityscape;
    protected GameplaySetup setup;
    private HamorigamiContext context;
 
@@ -57,8 +57,31 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
       setupLevel(context);
       this.setup = buildGameplaySetup(context);
       setupGraphics(context);
-      cityscape = new Cityscape(setup, context);
-      context.getRenderPipeline().putAfter(RenderPipeIds.BACKGROUND, "cityscape", cityscape);
+      context.getRenderPipeline().put(RenderPipeIds.BACKGROUND, new RenderLayer2D() {
+         @Override
+         public void render(Batch batch, float delta) {
+            float x = context.getGameCamera().getLeft();
+            float y = context.getGameCamera().getTop();
+
+            Texture background = Asset.get(SKY_DAY, Texture.class);
+
+            Color color = batch.getColor();
+            batch.begin();
+            batch.draw(background, x, y);
+
+            Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
+            float eveningFactor = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
+            batch.setColor(1f, 1f, 1f, eveningFactor);
+            batch.draw(background_noon, x, y);
+            batch.end();
+            batch.setColor(color);
+         }
+      });
+      context.getRenderPipeline().putBefore(HamorigamiContext.FURTHER_BACKGROUND_PARTICLES_LAYER, "cityscape-back", new Cityscape(setup, context,
+            new Cityscape.Layer(1.1f, 1f, CITYSCAPE_FAR)));
+      context.getRenderPipeline().putAfter(HamorigamiContext.FURTHER_BACKGROUND_PARTICLES_LAYER, "cityscape-front", new Cityscape(setup, context,
+            new Cityscape.Layer(1.3f, 0.6f, CITYSCAPE_MIDDLE),
+            new Cityscape.Layer(1.5f, 0.3f, CITYSCAPE_FRONT)));
    }
 
    private void setupLevel(HamorigamiContext context) {

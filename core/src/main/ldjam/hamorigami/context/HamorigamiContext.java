@@ -17,11 +17,15 @@ import ldjam.hamorigami.weather.WeatherManager;
 
 public class HamorigamiContext extends GameContext2DImpl {
 
+   public static final String FURTHER_BACKGROUND_PARTICLES_LAYER = "further-background-particles";
+   public static final String BACKGROUND_PARTICLES_LAYER = "background-particles";
+
    private final EntityFactory entityFactory;
    private final EmoteManager emoteManager;
    private final AnchorManager anchorManager;
    private final WeatherManager weatherManager;
    private final ParticleManagerImpl backgroundParticleManager;
+   private final ParticleManagerImpl furtherParticleManager;
    private final CameraParallaxor parallaxor;
 
    public HamorigamiContext(ViewportFactory viewportFactory,
@@ -34,11 +38,16 @@ public class HamorigamiContext extends GameContext2DImpl {
       this.anchorManager = new AnchorManager();
       this.weatherManager = new WeatherManager(this);
       this.backgroundParticleManager = new ParticleManagerImpl(getBehaviorManager(), getSettings().getGraphics());
+      this.furtherParticleManager = new ParticleManagerImpl(getBehaviorManager(), getSettings().getGraphics());
       this.parallaxor = new CameraParallaxor(getGameCamera());
       getRenderPipeline().putBefore(
             RenderPipeIds.WORLD,
-            "background-particles",
+            BACKGROUND_PARTICLES_LAYER,
             new ParticleManagerRenderLayer(backgroundParticleManager));
+      getRenderPipeline().putAfter(
+            RenderPipeIds.BACKGROUND,
+            FURTHER_BACKGROUND_PARTICLES_LAYER,
+            new ParticleManagerRenderLayer(furtherParticleManager));
 
 
    }
@@ -64,12 +73,16 @@ public class HamorigamiContext extends GameContext2DImpl {
    public AnchorManager getAnchorManager() {
       return anchorManager;
    }
-   
+
    public WeatherManager getWeatherManager() {
       return weatherManager;
    }
 
    public ParticleManager getBackgroundParticleManager() {
       return backgroundParticleManager;
+   }
+
+   public ParticleManager getFurtherBackgroundParticleManager() {
+      return furtherParticleManager;
    }
 }
