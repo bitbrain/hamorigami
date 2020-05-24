@@ -60,7 +60,7 @@ public class Cityscape extends RenderLayer2D {
       batch.setShader(program);
       program.setUniformf("scatterColor", eveningAtmosphericColor);
       program.setUniformf("tintColor", eveningAmbientColor);
-      program.setUniformf("tintIntensity", 0.5f);
+      program.setUniformf("tintIntensity", 0.7f);
       drawDistanceLayer(cityFar, batch, program, 0.9f);
       batch.end();
       batch.begin();
