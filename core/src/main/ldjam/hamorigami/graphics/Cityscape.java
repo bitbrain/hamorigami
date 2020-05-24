@@ -1,12 +1,8 @@
 package ldjam.hamorigami.graphics;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.bitbrain.braingdx.assets.Asset;
 import de.bitbrain.braingdx.graphics.pipeline.RenderLayer2D;
@@ -15,8 +11,7 @@ import ldjam.hamorigami.context.HamorigamiContext;
 import ldjam.hamorigami.setup.GameplaySetup;
 
 import static ldjam.hamorigami.Assets.Textures.*;
-import static ldjam.hamorigami.GameColors.EVENING_COLOR;
-import static ldjam.hamorigami.GameColors.MIDDAY_COLOR;
+import static ldjam.hamorigami.GameColors.*;
 
 public class Cityscape extends RenderLayer2D {
 
@@ -29,7 +24,7 @@ public class Cityscape extends RenderLayer2D {
    public Cityscape(GameplaySetup setup, HamorigamiContext context) {
       this.context = context;
       this.setup = setup;
-      cityFront = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.4f);
+      cityFront = new ParallaxMap(CITYSCAPE_FRONT, context.getGameCamera(), 1.5f);
       cityFront.scale(1.1f);
       cityBack = new ParallaxMap(CITYSCAPE_MIDDLE, context.getGameCamera(), 1.3f);
       cityBack.scale(1.1f);
@@ -56,22 +51,29 @@ public class Cityscape extends RenderLayer2D {
       batch.draw(background_noon, x, y);
 
       batch.setColor(color);
-      Color foreground = Color.WHITE.cpy().lerp(MIDDAY_COLOR, dayFactor);
-      Color eveningColor = foreground.lerp(EVENING_COLOR, eveningFactor);
+      Color middayAtmosphericColor = Color.WHITE.cpy().lerp(MIDDAY_ATMOSPHERIC_COLOR, dayFactor);
+      Color eveningAtmosphericColor = middayAtmosphericColor.lerp(EVENING_ATMOSPHERE_COLOR, eveningFactor);
+      Color middayAmbientColor = Color.WHITE.cpy().lerp(MIDDAY_AMBIENT_COLOR, dayFactor);
+      Color eveningAmbientColor = middayAmbientColor.lerp(EVENING_AMBIENT_COLOR, eveningFactor);
 
-      ShaderProgram program = Asset.get(Assets.Shaders.TEXTURE_TINT, ShaderProgram.class);
-      System.out.println(program.getLog());
+      ShaderProgram program = Asset.get(Assets.Shaders.TINT_SCATTERING, ShaderProgram.class);
       batch.setShader(program);
-      program.setUniformf("color", eveningColor);
-      drawDistanceLayer(cityFar, batch, program);
-      drawDistanceLayer(cityBack, batch, program);
-      drawDistanceLayer(cityFront, batch, program);
+      program.setUniformf("scatterColor", eveningAtmosphericColor);
+      program.setUniformf("tintColor", eveningAmbientColor);
+      program.setUniformf("tintIntensity", 0.5f);
+      drawDistanceLayer(cityFar, batch, program, 0.9f);
+      batch.end();
+      batch.begin();
+      drawDistanceLayer(cityBack, batch, program, 0.5f);
+      batch.end();
+      batch.begin();
+      drawDistanceLayer(cityFront, batch, program, 0.3f);
       batch.end();
       batch.setShader(null);
    }
 
-   private void drawDistanceLayer(ParallaxMap map, Batch batch, ShaderProgram program) {
-      program.setUniformf("intensity", 1f);
+   private void drawDistanceLayer(ParallaxMap map, Batch batch, ShaderProgram program, float scattering) {
+      program.setUniformf("scatterIntensity", scattering);
       map.draw(batch);
    }
 }

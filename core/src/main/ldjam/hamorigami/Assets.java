@@ -111,6 +111,6 @@ public interface Assets {
 
    @AssetSource(directory = "shaders", assetClass = ShaderProgram.class)
    interface Shaders {
-      String TEXTURE_TINT = "texture-tint.frag";
+      String TINT_SCATTERING = "tint-scattering.frag";
    }
 }

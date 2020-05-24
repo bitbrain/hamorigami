@@ -4,8 +4,10 @@ precision mediump float;
 varying vec4 v_color;
 varying vec2 v_texCoords;
 uniform sampler2D u_texture;
-uniform float intensity;
-uniform vec4 color;
+uniform float scatterIntensity;
+uniform float tintIntensity;
+uniform vec4 scatterColor;
+uniform vec4 tintColor;
 
 void main()
 {
@@ -14,5 +16,6 @@ void main()
     if (pixel.a == 0.0) {
         discard;
     }
-    gl_FragColor = mix(pixel.rgba, color, clamp((t * t * t) * (1.5f * intensity), 0.0, 1.0));
+    vec4 tinted = mix(pixel.rgba, pixel.rgba * tintColor, tintIntensity);
+    gl_FragColor = mix(tinted, scatterColor, clamp((t * t * t) * (1.5 * scatterIntensity), 0.0, 1.0));
 }
