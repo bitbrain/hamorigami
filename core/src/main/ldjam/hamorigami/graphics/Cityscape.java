@@ -1,5 +1,6 @@
 package ldjam.hamorigami.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,6 +11,7 @@ import ldjam.hamorigami.setup.GameplaySetup;
 
 import static ldjam.hamorigami.Assets.Textures.*;
 import static ldjam.hamorigami.GameColors.EVENING_COLOR;
+import static ldjam.hamorigami.GameColors.MIDDAY_COLOR;
 
 public class Cityscape extends RenderLayer2D {
 
@@ -42,11 +44,13 @@ public class Cityscape extends RenderLayer2D {
 
       Texture background_noon = Asset.get(SKY_EVENING, Texture.class);
       Color color = batch.getColor();
-      float transitionValue = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
-      batch.setColor(1f, 1f, 1f, transitionValue);
+      float eveningFactor = (float) (1f - Math.sin(Math.PI * setup.getDayProgress()));
+      float dayFactor = 1f - eveningFactor;
+      batch.setColor(1f, 1f, 1f, eveningFactor);
       batch.draw(background_noon, x, y);
 
-      Color eveningColor = Color.WHITE.cpy().lerp(EVENING_COLOR, transitionValue);
+      Color foreground = Color.WHITE.cpy().lerp(MIDDAY_COLOR, dayFactor);
+      Color eveningColor = foreground.lerp(EVENING_COLOR, eveningFactor);
 
       cityFar.setColor(eveningColor);
       cityFar.draw(batch);

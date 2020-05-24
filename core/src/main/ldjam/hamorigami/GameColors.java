@@ -4,5 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 
 public interface GameColors {
 
-   Color EVENING_COLOR = Color.valueOf("e3bccf");
+   Color MIDDAY_COLOR = Color.valueOf("ffffff");
+   Color EVENING_COLOR = Color.valueOf("dfb1c7");
 }
