@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.bitbrain.braingdx.assets.annotations.AssetSource;
 
 public interface Assets {
@@ -106,5 +107,10 @@ public interface Assets {
       String WATER = "water.p";
 
       String RAIN = "rain.p";
+   }
+
+   @AssetSource(directory = "shaders", assetClass = ShaderProgram.class)
+   interface Shaders {
+      String TEXTURE_TINT = "texture-tint.frag";
    }
 }
