@@ -61,7 +61,7 @@ public class ParallaxMap {
       double targetX = getTarget(baseX);
       double targetY = getTarget(baseY);
       sprite.setPosition(
-            (float)targetX - initialOffsetX + scaleOffetX,
+            (float)(targetX - initialOffsetX + scaleOffetX),
             (float)targetY - initialOffsetY + scaleOffetY);
       sprite.setSize(width * this.scale, height * this.scale);
       sprite.draw(batch, alpha);

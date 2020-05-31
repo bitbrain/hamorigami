@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static ldjam.hamorigami.Assets.Musics.BACKGROUND_01;
+import static ldjam.hamorigami.Assets.Musics.STORM;
 import static ldjam.hamorigami.model.SpiritType.*;
 
 public class GameplayPhase implements GamePhase, Proceedable {
@@ -81,12 +82,12 @@ public class GameplayPhase implements GamePhase, Proceedable {
       gameOver = false;
       this.context = context;
       this.treeObject = treeObject;
-      this.music = Asset.get(BACKGROUND_01, Music.class);
+      this.music = Asset.get(context.getWeatherManager().getRainIntensity() > 0f ? STORM : BACKGROUND_01, Music.class);
       cityscapeMusic = Asset.get(Assets.Musics.CITYSCAPE, Music.class);
-      cityscapeMusic.setVolume(0.2f);
+      cityscapeMusic.setVolume(0.1f);
       music.setLooping(true);
-      music.setVolume(0.1f);
-      //music.play();
+      music.setVolume(0.05f);
+      music.play();
 
       EntityFactory entityFactory = new EntityFactory(context);
 

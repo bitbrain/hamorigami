@@ -56,7 +56,9 @@ public class GameOverPhase implements GamePhase, Proceedable {
    public void enable(HamorigamiContext context, GameObject treeObject) {
       this.context = context;
       context.getInputManager().register(new ProceedableControllerAdapter(this));
-      Asset.get(Assets.Musics.FAIL, Music.class).play();
+      Music music = Asset.get(Assets.Musics.FAIL, Music.class);
+      music.setVolume(0.2f);
+      music.play();
       exiting = false;
       this.layout = new Table();
       layout.setFillParent(true);

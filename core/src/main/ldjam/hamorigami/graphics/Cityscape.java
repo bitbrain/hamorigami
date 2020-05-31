@@ -63,6 +63,7 @@ public class Cityscape extends RenderLayer2D {
          program.setUniformf("tintColor", getAmbientColor(weatherManager, eveningFactor, dayFactor));
          program.setUniformf("tintIntensity", 0.7f);
          program.setUniformf("scatterIntensity", layer.scattering);
+         System.out.println(program.getLog());
          parallaxMap.get(layer).draw(batch);
          batch.end();
       }

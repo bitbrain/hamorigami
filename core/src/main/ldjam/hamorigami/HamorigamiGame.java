@@ -3,6 +3,7 @@ package ldjam.hamorigami;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import de.bitbrain.braingdx.BrainGdxGame;
 import de.bitbrain.braingdx.GameSettings;
 import de.bitbrain.braingdx.assets.Asset;
@@ -10,9 +11,11 @@ import de.bitbrain.braingdx.assets.GameAssetLoader;
 import de.bitbrain.braingdx.assets.SmartAssetLoader;
 import de.bitbrain.braingdx.debug.BrainGdxDebug;
 import de.bitbrain.braingdx.event.GameEventManagerImpl;
+import de.bitbrain.braingdx.graphics.GraphicsFactory;
 import de.bitbrain.braingdx.graphics.GraphicsSettings;
 import de.bitbrain.braingdx.graphics.postprocessing.filters.RadialBlur;
 import de.bitbrain.braingdx.screens.AbstractScreen;
+import ldjam.hamorigami.graphics.PhasedGFX;
 import ldjam.hamorigami.i18n.Bundle;
 import ldjam.hamorigami.screens.StoryModeScreen;
 import ldjam.hamorigami.ui.Styles;
@@ -56,6 +59,7 @@ public class HamorigamiGame extends BrainGdxGame {
 
    @Override
    protected AbstractScreen<?, ?> getInitialScreen() {
+      PhasedGFX.setTexture(GraphicsFactory.createTexture(1, 1, Color.WHITE));
       Gdx.input.setCursorCatched(true);
       Bundle.load();
       Styles.init();
@@ -63,7 +67,7 @@ public class HamorigamiGame extends BrainGdxGame {
       configureSettings();
       Music cityscape = Asset.get(Assets.Musics.CITYSCAPE, Music.class);
       cityscape.setLooping(true);
-      cityscape.setVolume(0.4f);
+      cityscape.setVolume(0.1f);
       cityscape.play();
       return new StoryModeScreen(this);
    }

@@ -49,6 +49,7 @@ public interface Assets {
    @AssetSource(directory = "music", assetClass = Music.class)
    interface Musics {
       String BACKGROUND_01 = "bgm_01.ogg";
+      String STORM = "bgm_storm.ogg";
       String OUTRO = "outro.ogg";
       String CITYSCAPE = "city_01.ogg";
       String FAIL = "fail.ogg";
