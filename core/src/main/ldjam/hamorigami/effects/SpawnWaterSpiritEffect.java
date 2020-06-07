@@ -31,7 +31,7 @@ public class SpawnWaterSpiritEffect implements SpiritSpawnEffect {
             .start(SharedTweenManager.getInstance());
 
       Tween.to(spirit, GameObjectTween.POS_Y, 0.6f)
-            .target(context.getGameCamera().getTop() + 38f)
+            .target(context.getGameCamera().getTop() + 40f)
             .setCallbackTriggers(TweenCallback.COMPLETE)
             .setCallback(new TweenCallback() {
                @Override

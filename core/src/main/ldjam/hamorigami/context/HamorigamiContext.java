@@ -12,7 +12,9 @@ import de.bitbrain.braingdx.util.ViewportFactory;
 import ldjam.hamorigami.anchor.AnchorManager;
 import ldjam.hamorigami.behavior.CameraParallaxor;
 import ldjam.hamorigami.cutscene.emotes.EmoteManager;
+import ldjam.hamorigami.cutscene.toast.ToastManager;
 import ldjam.hamorigami.entity.EntityFactory;
+import ldjam.hamorigami.ui.Styles;
 import ldjam.hamorigami.weather.WeatherManager;
 
 public class HamorigamiContext extends GameContext2DImpl {
@@ -27,6 +29,7 @@ public class HamorigamiContext extends GameContext2DImpl {
    private final ParticleManagerImpl backgroundParticleManager;
    private final ParticleManagerImpl furtherParticleManager;
    private final CameraParallaxor parallaxor;
+   private final ToastManager toastManager;
 
    public HamorigamiContext(ViewportFactory viewportFactory,
                             ShaderConfig shaderConfig,
@@ -40,6 +43,7 @@ public class HamorigamiContext extends GameContext2DImpl {
       this.backgroundParticleManager = new ParticleManagerImpl(getBehaviorManager(), getSettings().getGraphics());
       this.furtherParticleManager = new ParticleManagerImpl(getBehaviorManager(), getSettings().getGraphics());
       this.parallaxor = new CameraParallaxor(getGameCamera());
+      this.toastManager = new ToastManager(this, Styles.DIALOG_TEXT);
       getRenderPipeline().putBefore(
             RenderPipeIds.WORLD,
             BACKGROUND_PARTICLES_LAYER,
@@ -53,9 +57,19 @@ public class HamorigamiContext extends GameContext2DImpl {
    }
 
    @Override
+   public void updateAndRender(float delta) {
+      this.toastManager.update(delta);
+      super.updateAndRender(delta);
+   }
+
+   @Override
    public void dispose() {
       super.dispose();
       backgroundParticleManager.dispose();
+   }
+
+   public ToastManager getToastManager() {
+      return toastManager;
    }
 
    public CameraParallaxor getCameraParallaxor() {

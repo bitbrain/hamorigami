@@ -103,8 +103,8 @@ public class Movement extends BehaviorAdapter {
          if (gameObject.getRight() > gameCamera.getLeft() + gameCamera.getScaledCameraWidth()) {
             gameObject.setPosition(gameCamera.getLeft() + gameCamera.getScaledCameraWidth() - gameObject.getWidth(), gameObject.getTop());
          }
-         if (gameObject.getTop() < gameCamera.getTop() + 45f) {
-            gameObject.setPosition(gameObject.getLeft(), gameCamera.getTop() + 45f);
+         if (gameObject.getTop() < gameCamera.getTop() + 40f) {
+            gameObject.setPosition(gameObject.getLeft(), gameCamera.getTop() + 40f);
          }
          if (gameObject.getBottom() > gameCamera.getTop() + gameCamera.getScaledCameraHeight()) {
             gameObject.setPosition(gameObject.getLeft(), gameCamera.getTop() + gameCamera.getScaledCameraHeight() - gameObject.getHeight());

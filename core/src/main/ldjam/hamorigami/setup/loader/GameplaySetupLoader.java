@@ -203,6 +203,13 @@ public class GameplaySetupLoader {
                   cutsceneBuilder.say(sentenceId, id);
                }
             }, new StringInput(), new Argument("on", new StringInput()))
+            .withCommand("toast", new CommandBehavior() {
+               @Override
+               public void apply(Map<String, Object> args) {
+                  String sentenceId = (String) args.get("toast");
+                  cutsceneBuilder.toast(sentenceId);
+               }
+            }, new StringInput())
             // emote <id> on <id>
             .withCommand("emote", new CommandBehavior() {
                @Override

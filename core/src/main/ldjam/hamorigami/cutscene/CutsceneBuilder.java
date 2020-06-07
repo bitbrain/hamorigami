@@ -489,6 +489,21 @@ public class CutsceneBuilder {
       return this;
    }
 
+   public CutsceneBuilder toast(final String message) {
+      getCurrentSteps().add(new CutsceneStep() {
+         @Override
+         public void execute() {
+            context.getToastManager().doToast(Bundle.get(message));
+         }
+
+         @Override
+         public void stop() {
+            context.getToastManager().stop();
+         }
+      });
+      return this;
+   }
+
    public Cutscene build() {
       return new Cutscene(steps);
    }

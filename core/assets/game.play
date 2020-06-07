@@ -7,32 +7,29 @@ DAY 1
 begin cutscene
 
 wait 2 seconds
-spawn kodama at tree aligned north,west offset 50,50
+spawn kodama at tree aligned south,west
 fadeIn kodama for 2 seconds
 wait 4 seconds
-say cutscene.day0.human.01 on kodama
+toast cutscene.day0.human.01
 emote confusion on kodama
 move kodama by -200,0 for 1 second
-say cutscene.day0.human.02 on kodama
+toast cutscene.day0.human.02
 wait 4 seconds
-say cutscene.day0.human.03 on kodama
+toast cutscene.day0.human.03
 wait 4 seconds
-say cutscene.day0.human.04 on kodama
-move kodama by 50,0 for 1 second looped
+toast cutscene.day0.human.04
+move kodama by 50,0 for 1 second
 wait 4 seconds
 reset kodama
 emote confusion on kodama
 move kodama by 100,0
-fadeOut kodama for 2 seconds
-spawn kodama at tree
-fadeIn kodama for 2 seconds
-say cutscene.day0.human.05 on kodama
+toast cutscene.day0.human.05
 wait 4 seconds
-say cutscene.day0.human.06 on kodama
-wait 8 seconds
-spawn kodama at tree
-fadeIn kodama for 2 seconds
-say cutscene.day0.human.06 on kodama
+toast cutscene.day0.human.06
+emote sadness on kodama
+wait 4 seconds
+toast cutscene.day0.human.07
+emote disagree on kodama
 
 end cutscene
 
