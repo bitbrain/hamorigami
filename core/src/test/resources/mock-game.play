@@ -1,0 +1,70 @@
+# Hamorigami Gameplay Setup
+
+# day 1 - game play explained, introduction of ame
+# whole day, showers starting in the mid-morning till evening/end of day
+
+DAY 1
+begin cutscene
+
+wait 2 seconds
+spawn kodama at tree
+fadeIn kodama for 2 seconds
+wait 4 seconds
+say cutscene.day0.human.01 on kodama
+emote confusion on kodama
+move kodama by -200,0 for 1 second
+say cutscene.day0.human.02 on kodama
+wait 4 seconds
+say cutscene.day0.human.03 on kodama
+wait 4 seconds
+say cutscene.day0.human.04 on kodama
+move kodama by 200,0 for 1 second looped
+reset kodama
+wait 4 seconds
+emote confusion on kodama
+move kodama by 100,0
+fadeOut kodama for 2 seconds
+spawn hi at tree
+say cutscene.day0.human.05 on hi
+wait 4 seconds
+say cutscene.day0.human.06 on hi
+wait 8 seconds
+fadeOut hi for 2 seconds
+
+end cutscene
+
+every 5% spawn hi
+every 11 seconds spawn ame times 2
+
+at 10 seconds spawn ame times 4
+at 20 seconds spawn ame times 10
+at 50% spawn ame
+at 50% spawn hi times 5
+at 50 seconds spawn ame times 10
+
+day 2
+
+every 10 seconds spawn ame times 2
+every 15 seconds spawn hi times 5
+
+at 10 seconds spawn ame times 2
+at 50% spawn hi times 10
+
+begin cutscene
+
+wait 2 seconds
+spawn kodama at tree
+fadeIn kodama for 2 seconds
+wait 4 seconds
+
+end cutscene
+
+day 3
+
+every 6 seconds spawn ame times 3
+every 7 seconds spawn hi times 4
+
+at 10 seconds spawn ame times 7
+at 20% spawn hi times 10
+at 60% spawn ame times 15
+at 80% spawn hi times 20

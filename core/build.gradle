@@ -3,6 +3,15 @@ apply plugin: "java"
 sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = [ "src/main" ]
+sourceSets.test.java.srcDirs = [ "src/test/java" ]
+sourceSets.test.resources.srcDirs = ["../core/assets", "src/test/resources"]
 
 eclipse.project.name = appName + "-core"
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.13'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    testCompile group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.9.10'
+}
