@@ -51,9 +51,9 @@ public abstract class BaseScreen extends AbstractBrainGdxScreen2D<HamorigamiGame
    @Override
    protected void onUpdate(float delta) {
       super.onUpdate(delta);
-      if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-         context.getWeatherManager().thunder();
-      }
+      //if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+      //   context.getWeatherManager().thunder();
+      //}
    }
 
    @Override

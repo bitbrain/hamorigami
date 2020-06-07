@@ -29,7 +29,10 @@ toast cutscene.day0.human.06
 emote sadness on kodama
 wait 4 seconds
 toast cutscene.day0.human.07
-emote disagree on kodama
+emote agree on kodama
+say cutscene.day0.kodama.01 on kodama
+emote smile on kodama
+say cutscene.day0.kodama.02 on kodama
 
 end cutscene
 
