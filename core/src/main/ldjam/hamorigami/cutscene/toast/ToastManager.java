@@ -12,7 +12,7 @@ import ldjam.hamorigami.context.HamorigamiContext;
 
 public class ToastManager implements Updateable {
 
-   private static final float TOAST_DURATION = 6f;
+   public static final float TOAST_DURATION = 5f;
 
    private final Label label;
    private final HamorigamiContext context;
@@ -42,7 +42,7 @@ public class ToastManager implements Updateable {
                @Override
                public void onEvent(int type, BaseTween<?> source) {
                   label.setText(text);
-                  Tween.to(label, ActorTween.ALPHA, TOAST_DURATION / 3f)
+                  Tween.to(label, ActorTween.ALPHA, 0.5f)
                         .target(1f)
                         .ease(TweenEquations.easeInOutQuad)
                         .start(SharedTweenManager.getInstance());

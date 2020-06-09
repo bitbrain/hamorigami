@@ -6,7 +6,6 @@ import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.Gdx;
 import de.bitbrain.braingdx.context.GameContext2D;
 import de.bitbrain.braingdx.tweens.SharedTweenManager;
-import de.bitbrain.braingdx.world.GameObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,24 +25,24 @@ public class Cutscene {
       if (tweens.size() > 0f) {
          return;
       }
-      for (Map.Entry<Float, List<CutsceneStep>> entry : steps.entrySet()) {
+      for (final Map.Entry<Float, List<CutsceneStep>> entry : steps.entrySet()) {
          float delay = entry.getKey();
-         for (final CutsceneStep step : entry.getValue()) {
-            tweens.add(Tween.call(new TweenCallback() {
-               @Override
-               public void onEvent(int type, final BaseTween<?> tween) {
-                  Gdx.app.postRunnable(new Runnable() {
-                     @Override
-                     public void run() {
+         tweens.add(Tween.call(new TweenCallback() {
+            @Override
+            public void onEvent(int type, final BaseTween<?> tween) {
+               Gdx.app.postRunnable(new Runnable() {
+                  @Override
+                  public void run() {
+                     for (final CutsceneStep step : entry.getValue()) {
                         step.execute();
-                        executedTweens.add(tween);
                      }
-                  });
-               }
-            }).setCallbackTriggers(TweenCallback.COMPLETE)
-                  .delay(delay)
-                  .start(SharedTweenManager.getInstance()));
-         }
+                     executedTweens.add(tween);
+                  }
+               });
+            }
+         }).setCallbackTriggers(TweenCallback.COMPLETE)
+               .delay(delay)
+               .start(SharedTweenManager.getInstance()));
       }
    }
 

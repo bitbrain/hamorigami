@@ -505,6 +505,20 @@ public class CutsceneBuilder {
    }
 
    public Cutscene build() {
+      if (emoteTime > 0f) {
+         wait(3f);
+         getCurrentSteps().add(new CutsceneStep() {
+            @Override
+            public void execute() {
+               // noOp
+            }
+
+            @Override
+            public void stop() {
+               // noOp
+            }
+         });
+      }
       return new Cutscene(steps);
    }
 
