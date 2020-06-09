@@ -12,8 +12,8 @@ public enum Emote {
    CONFUSION(1),
    SADNESS(2),
    SURPRISE(3),
-   DISAGREE(4),
-   AGREE(5);
+   AGREE(4),
+   DISAGREE(5);
 
    private Animation<TextureRegion> animation;
    private final int yIndex;

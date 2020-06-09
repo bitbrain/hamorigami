@@ -21,7 +21,7 @@ toast cutscene.day0.human.04
 move kodama by 50,0 for 1 second
 wait 4 seconds
 reset kodama
-emote confusion on kodama
+emote surprise on kodama
 move kodama by 100,0
 toast cutscene.day0.human.05
 wait 4 seconds
@@ -29,9 +29,9 @@ toast cutscene.day0.human.06
 emote sadness on kodama
 wait 4 seconds
 toast cutscene.day0.human.07
-emote agree on kodama
+wait 3 seconds
+emote disagree on kodama
 say cutscene.day0.kodama.01 on kodama
-emote smile on kodama
 say cutscene.day0.kodama.02 on kodama
 
 end cutscene

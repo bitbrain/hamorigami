@@ -506,7 +506,7 @@ public class CutsceneBuilder {
 
    public Cutscene build() {
       if (emoteTime > 0f) {
-         wait(3f);
+         wait(2f);
          getCurrentSteps().add(new CutsceneStep() {
             @Override
             public void execute() {
